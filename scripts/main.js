@@ -6,3 +6,11 @@ const init = () => {
 
   router = new Router(pages)
 }
+
+const register = () => {
+
+}
+
+const login = () => {
+
+}
