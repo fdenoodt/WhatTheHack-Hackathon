@@ -6,3 +6,4 @@ const init = () => {
 
   router = new Router(pages)
 }
+
