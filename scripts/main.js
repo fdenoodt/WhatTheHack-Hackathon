@@ -8,20 +8,22 @@ var config = {
 };
 
 var provider = new firebase.auth.GoogleAuthProvider();
-console.log("firebase success")
+console.log("firebase success");
 
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile']
+  const pages = ['home', 'login', 'register', 'profile'];
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
   }
-  /**firebase.database().ref('user/' + 'User 1').set({
-      username:'Hello world'
-  })**/
-  router = new Router(pages)
-
+  router = new Router(pages);
+  if(firebase.auth().currentUser){
+      console.log("You are logged in LOL")
+  }
+  else{
+      console.log("Not logged in lol")
+  }
 };
 firebase.initializeApp(config);
 
@@ -65,11 +67,11 @@ const register = () => {
         const id = firebase.auth().currentUser.uid;
 
         let user = {
-          fname: 'tempN',
+          fname: 'tempOOO',
           lname: 'temL',
           age: 21,
           interests: ['sport', 'school', 'lol']
-        }
+        };
 
         refUsers.child(id).push(user,
           err => { if (err) warn('Something went wrong loggin in.'); else warn('Successfully created an account.'); });
@@ -81,7 +83,7 @@ const register = () => {
           warn("Error happened while signing up: " + errorCode + " " + errorMessage + " ")
         });
     });
-}
+};
 
 const login = () => {
   let email = document.getElementById("login_inp_username").value
@@ -91,9 +93,9 @@ const login = () => {
   }
   else {
     firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
-      warn("logged in" + email + " " + password)
+      warn("logged in" + email + " " + password);
       const uid = firebase.auth().currentUser.uid;
-      refUsers.child('/' + uid).once('value').then(function (snapshot) {
+      refUsers.child(uid).once('value').then(function (snapshot) {
         warn(snapshot);
         warn("kjl")
       });
@@ -102,28 +104,24 @@ const login = () => {
       .catch(function (error) {
         warn("error logging in")
       })
-  };
+  }
+};
 
-  //logout
-  // firebase.auth().signOut().then(function () {
-  //   warn("user logged out")
-  // }).catch(function (error) {
-  //   var errorCode = error.code;
-  //   var errorMessage = error.message;
-  //   firebase.auth().onAuthStateChanged(function (user) {
-  //     if (user) {
-  //       warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
-  //       app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
-  //     } else {
-  //       warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
-  //       app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
-  //     }
-  //   });
-  // });
-
-
-
-}
+/*const logout = firebase.auth().signOut().then(function () {
+        warn("user logged out")
+    }).catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
+                app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
+            } else {
+                warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
+                app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
+            }
+        });
+    });*/
 
 const GoogleAuth = () => {
   firebase.auth().signInWithPopup(provider).then(function (result) {
@@ -131,7 +129,17 @@ const GoogleAuth = () => {
     var token = result.credential.accessToken;
 
     var user = result.user;
-    warn("logged in with google")
+    warn("logged in with google");
+    const id = user.uid;
+    let userObject = {
+          fname: 'test',
+          lname: 'temL',
+          age: 21,
+          interests: ['sport', 'school', 'lol']
+      };
+
+      refUsers.child(id).push(userObject,
+          err => { if (err) warn('Something went wrong loggin in.'); else warn('Successfully created an account.'); });
   }).catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
