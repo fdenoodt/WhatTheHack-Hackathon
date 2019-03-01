@@ -8,25 +8,38 @@ var config = {
 };
 
 var provider = new firebase.auth.GoogleAuthProvider();
-console.log("firebase success")
 
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile']
+  const pages = ['home', 'login', 'register', 'profile', 'chat']
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
   }
-  /**firebase.database().ref('user/' + 'User 1').set({
-      username:'Hello world'
-  })**/
+
   router = new Router(pages)
+
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      //user is logged in
+      const id = user.uid;
+      refUsers.child('/' + id).once('value').then(function (snapshot) {
+        const data = snapshot.val();
+        console.log(data);
+        console.log(id);
+      });
+
+      router.goTo('chat');
+    } else {
+      // User is signed out.
+      router.goTo('home');
+    }
+  });
 
 };
 firebase.initializeApp(config);
 
 const database = firebase.database();
-
 const refMessage = firebase.database().ref('messages/');
 const refUsers = firebase.database().ref('users/');
 const refQueue = firebase.database().ref('queue/');
@@ -71,7 +84,7 @@ const register = () => {
           interests: ['sport', 'school', 'lol']
         }
 
-        refUsers.child(id).push(user,
+        refUsers.child(id).set(user,
           err => { if (err) warn('Something went wrong loggin in.'); else warn('Successfully created an account.'); });
       })
         .catch(function (error) {
@@ -86,23 +99,16 @@ const register = () => {
 const login = () => {
   let email = document.getElementById("login_inp_username").value
   let password = document.getElementById("login_inp_password").value
-  if (firebase.auth().currentUser) {
-    warn("You are already logged in!")
-  }
-  else {
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
-      warn("logged in" + email + " " + password)
-      const uid = firebase.auth().currentUser.uid;
-      refUsers.child('/' + uid).once('value').then(function (snapshot) {
-        warn(snapshot);
-        warn("kjl")
-      });
-
+  // if (firebase.auth().currentUser) {
+  //   warn("You are already logged in!")
+  // }
+  // else {
+  firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
+  })
+    .catch(function (error) {
+      warn("error logging in")
     })
-      .catch(function (error) {
-        warn("error logging in")
-      })
-  };
+  // };
 
   //logout
   // firebase.auth().signOut().then(function () {
