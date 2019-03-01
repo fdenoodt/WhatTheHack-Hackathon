@@ -37,6 +37,7 @@ const init = () => {
         username:'Hello world'
     })**/
   router = new Router(pages)
+  router.goTo('chat') //todo: delete <---
 
 }
 
