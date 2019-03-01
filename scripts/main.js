@@ -19,13 +19,15 @@ const init = () => {
 
   router = new Router(pages)
 
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
+  firebase.auth().onAuthStateChanged(function (u) {
+    if (u) {
       //user is logged in
-      const id = user.uid;
+      const id = u.uid;
       refUsers.child('/' + id).once('value').then(function (snapshot) {
         const data = snapshot.val();
+        user = new User(data.fName,data.lName,data.age,data.interests);
         console.log(data);
+        console.log(user);
         console.log(id);
       });
 
