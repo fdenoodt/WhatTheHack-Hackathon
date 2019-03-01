@@ -6,20 +6,54 @@ var config = {
   storageBucket: "whatahack-dd596.appspot.com",
   messagingSenderId: "287574696148"
 };
-firebase.initializeApp(config);
+
 var provider = new firebase.auth.GoogleAuthProvider();
 console.log("firebase success")
 
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile']
-  for (const page of pages) {
-    document.querySelector('.' + page).style.display = 'none'
-  }
+    const pages = ['home', 'login', 'register', 'profile']
+    for (const page of pages) {
+        document.querySelector('.' + page).style.display = 'none'
+    }
+    /**firebase.database().ref('user/' + 'User 1').set({
+        username:'Hello world'
+    })**/
+    router = new Router(pages)
 
-  router = new Router(pages)
+};
+firebase.initializeApp(config);
+
+const database = firebase.database();
+
+const refMessage = firebase.database().ref('messages/');
+const refUsers = firebase.database().ref('user/');
+const refQueue = firebase.database().ref('Queue/');
+
+const Messages = [];
+// Luister naar nieuwe berichten voeg toe aan berichten indien er nieuwe zijn
+const getMessages = () => {
+    refMessage.once('value').then(function (snapshot) {
+        for (const key in snapshot.val()){
+            Messages.push(key);
+        }
+    })
+};
+
+function sendMessage(sendUser,receiveUser,chat,message){
+    firebase.database().ref('messages/' + chat).set({
+        usersend:sendUser,
+        userreceive:receiveUser,
+        Message:message
+    })
 }
+
+function findUser(){
+   return refQueue.limitToFirst(1);
+}
+
+//function
 
 const register = () => {
   let email = document.getElementById("register_inp_username").value
