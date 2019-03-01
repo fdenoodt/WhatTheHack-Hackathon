@@ -5,8 +5,6 @@ const init = () => {
   }
 
   router = new Router(pages)
-  router.goTo('chat') //todo: delete <---
-
 }
 
 const register = () => {
