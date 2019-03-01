@@ -1,14 +1,65 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Hackathon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Materializecss -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="scripts/materialize/materialize.js"></script>
+  <script type="text/javascript" src="scripts/materialize/script.js"></script>
+
   <link rel="stylesheet" type="text/css" media="screen" href="css/style.css">
+  <script src="scripts/components/router.js"></script>
   <script src="scripts/main.js"></script>
 </head>
-<body>
-  
+
+<body onload="init()">
+  <nav class="purple lighten-1">
+    <div class="nav-wrapper">
+      <a onclick="router.goTo('home')" class="brand-logo logo">ConnectX</a>
+      <a data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a onclick="router.goTo('home')">Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a onclick="router.goTo('game')">Join game</a></li>
+  </ul>
+
+  <div class="container">
+    <div class="home section center-align">
+      <h1>
+        Welcome to<br>
+        [<span class="purple-text text-lighten-1">Insert</span>Name]
+      </h1>
+      <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('login')">
+        Sign in
+      </button>
+      <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('register')">
+        Register
+      </button>
+    </div>
+
+    <div class="login">
+      <p>Sign in</p>
+    </div>
+
+    <div class="register">
+      <p>Register</p>
+    </div>
+  </div>
+
 </body>
+
 </html>
