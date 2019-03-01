@@ -13,14 +13,14 @@ console.log("firebase success")
 
 
 const init = () => {
-    const pages = ['home', 'login', 'register', 'profile']
-    for (const page of pages) {
-        document.querySelector('.' + page).style.display = 'none'
-    }
-    /**firebase.database().ref('user/' + 'User 1').set({
-        username:'Hello world'
-    })**/
-    router = new Router(pages)
+  const pages = ['home', 'login', 'register', 'profile']
+  for (const page of pages) {
+    document.querySelector('.' + page).style.display = 'none'
+  }
+  /**firebase.database().ref('user/' + 'User 1').set({
+      username:'Hello world'
+  })**/
+  router = new Router(pages)
 
 };
 firebase.initializeApp(config);
@@ -28,29 +28,30 @@ firebase.initializeApp(config);
 const database = firebase.database();
 
 const refMessage = firebase.database().ref('messages/');
-const refUsers = firebase.database().ref('user/');
-const refQueue = firebase.database().ref('Queue/');
+const refUsers = firebase.database().ref('users/');
+const refQueue = firebase.database().ref('queue/');
+let user;
 
 const Messages = [];
 // Luister naar nieuwe berichten voeg toe aan berichten indien er nieuwe zijn
 const getMessages = () => {
-    refMessage.once('value').then(function (snapshot) {
-        for (const key in snapshot.val()){
-            Messages.push(key);
-        }
-    })
+  refMessage.once('value').then(function (snapshot) {
+    for (const key in snapshot.val()) {
+      Messages.push(key);
+    }
+  })
 };
 
-function sendMessage(sendUser,receiveUser,chat,message){
-    firebase.database().ref('messages/' + chat).set({
-        usersend:sendUser,
-        userreceive:receiveUser,
-        Message:message
-    })
+function sendMessage(sendUser, receiveUser, chat, message) {
+  firebase.database().ref('messages/' + chat).set({
+    usersend: sendUser,
+    userreceive: receiveUser,
+    Message: message
+  })
 }
 
-function findUser(){
-   return refQueue.limitToFirst(1);
+function findUser() {
+  return refQueue.limitToFirst(1);
 }
 
 //function
@@ -61,8 +62,17 @@ const register = () => {
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function (authData) {
       authData.user.sendEmailVerification().then(function () {
-        warn("verification sent")
-        warn('Thank you!<br> You have sucessfully signed up, verification e-mail sent.');
+        const id = firebase.auth().currentUser.uid;
+
+        let user = {
+          fname: 'tempN',
+          lname: 'temL',
+          age: 21,
+          interests: ['sport', 'school', 'lol']
+        }
+
+        refUsers.child(id).push(user,
+          err => { if (err) warn('Something went wrong loggin in.'); else warn('Successfully created an account.'); });
       })
         .catch(function (error) {
           var errorCode = error.code;
@@ -82,6 +92,12 @@ const login = () => {
   else {
     firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
       warn("logged in" + email + " " + password)
+      const uid = firebase.auth().currentUser.uid;
+      refUsers.child('/' + uid).once('value').then(function (snapshot) {
+        warn(snapshot);
+        warn("kjl")
+      });
+
     })
       .catch(function (error) {
         warn("error logging in")
@@ -89,34 +105,34 @@ const login = () => {
   };
 
   //logout
-  firebase.auth().signOut().then(function () {
-    warn("user logged out")
-  }).catch(function (error) {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
-        app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
-      } else {
-        warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
-        app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
-      }
-    });
-  });
+  // firebase.auth().signOut().then(function () {
+  //   warn("user logged out")
+  // }).catch(function (error) {
+  //   var errorCode = error.code;
+  //   var errorMessage = error.message;
+  //   firebase.auth().onAuthStateChanged(function (user) {
+  //     if (user) {
+  //       warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
+  //       app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
+  //     } else {
+  //       warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
+  //       app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
+  //     }
+  //   });
+  // });
 
 
 
 }
 
 const GoogleAuth = () => {
-  firebase.auth().signInWithPopup(provider).then(function(result) {
+  firebase.auth().signInWithPopup(provider).then(function (result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
     var token = result.credential.accessToken;
-    
+
     var user = result.user;
     warn("logged in with google")
-  }).catch(function(error) {
+  }).catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
