@@ -10,7 +10,14 @@
   <!-- Materializecss -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="assets/css/materialize.min.css" media="screen,projection" />
+
   <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-database.js"></script>
+
+  
+  <!--
   <script>
       // Initialize Firebase
       var config = {
@@ -26,6 +33,7 @@
   <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-database.js"></script>
+-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="scripts/materialize/materialize.js"></script>
   <script type="text/javascript" src="scripts/materialize/script.js"></script>
@@ -33,6 +41,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
   <script src="scripts/components/router.js"></script>
   <script src="scripts/main.js"></script>
+
 </head>
 
 <body onload="init()">
@@ -75,16 +84,17 @@
         </div>
 
         <div class="row">
-          <input id="login_inp_username" type="text" class="validate redUnderline">
-          <label class="active " for="login_inp_username">Username</label>
+          <input id="login_inp_username" type="text" class="validate redUnderline" value="f@h.com">
+          <label class="active" for="login_inp_username">Username</label>
         </div>
         <div class="row">
-          <input id="login_inp_password" type="password" class="validate">
+          <input id="login_inp_password" type="password" class="validate" value="topkek">
           <label class="active" for="login_inp_password">Password</label>
         </div>
         <!-- Add send icon -->
         <div class="row center-align">
           <button class="purple lighten-1 waves-effect waves-light btn" onclick="login()">Send</button>
+          <button class="purple lighten-1 waves-effect waves-light btn" onclick="GoogleAuth()">Google</button>
         </div>
       </div>
     </div>
@@ -99,7 +109,7 @@
 
         <div class="row">
           <input id="register_inp_username" type="text">
-          <label class="active " for="register_inp_username">Username</label>
+          <label class="active" for="register_inp_username">Username</label>
         </div>
         <div class="row">
           <div class="row">
@@ -108,9 +118,12 @@
           </div>
           <div class="row center-align">
             <button class="purple lighten-1 waves-effect waves-light btn" onclick="register()">Send</button>
+            <button class="purple lighten-1 waves-effect waves-light btn" onclick="GoogleAuth()">Google</button>
           </div>
         </div>
       </div>
+
+
     </div>
 
     <div class="profile">
