@@ -1,5 +1,5 @@
 const init = () => {
-  const pages = ['home', 'login', 'register']
+  const pages = ['home', 'login', 'register', 'profile']
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
   }
