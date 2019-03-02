@@ -9,8 +9,8 @@ class ChatDisplay {
     this.convsDispl.innerHTML = ""
     const that = this;
 
-    document.getElementById("buttonjoinchat").style.display = "none"
-    document.getElementById("buttonsendmessage").style.display = "block"
+    /* document.getElementById("buttonjoinchat").style.display = "none"
+    document.getElementById("buttonsendmessage").style.display = "block" */
     
     let id = firebase.auth().currentUser.uid;
     for (const conv of lsConv) {

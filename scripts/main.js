@@ -13,23 +13,23 @@ let ConvoId;
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile', 'chat','QRcode','QRreader','make_profile']
+  const pages = ['home', 'login', 'register', 'profile', 'chat','QRcode','QRreader','make_profile','events']
   chatDisplay = new ChatDisplay()
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
   }
 
-  document.getElementById("buttonjoinchat").style.display = "block"
+  /* document.getElementById("buttonjoinchat").style.display = "block"
     document.getElementById("buttonsendmessage").style.display = "none"
-
+ */
   //eventen ophalen
   firebase.database().ref('Events/').on('value', data => {
     data.forEach(element => {
       var key = element.val();
-      document.getElementById("eventinformation").innerHTML += '<h1> ' + key.name + '</h1>';
-      document.getElementById("eventinformation").innerHTML += '<p> ' + key.date + ' - ' + key.starttime + ' duration: ' + key.duration + '</p>';
-      document.getElementById("eventinformation").innerHTML += '<p> ' + key.description + '</p>';
-      document.getElementById("eventinformation").innerHTML += '<p> ' + key.location + '</p>';
+      document.getElementById("eventlist").innerHTML += '<div class="row"><h1> ' + key.name + '</h1>';
+      document.getElementById("eventlist").innerHTML += '<p> ' + key.date + ' - ' + key.starttime + ' duration: ' + key.duration + '</p>';
+      document.getElementById("eventlist").innerHTML += '<p> ' + key.description + '</p>';
+      document.getElementById("eventlist").innerHTML += '<p> ' + key.location + '</p></div>';
 
     });
 
