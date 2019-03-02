@@ -14,9 +14,6 @@ class User {
             data = data[nKeys]
             const conversationId = nKeys;
             // const conversationId = snapshot.ref.key;
-            console.log(conversationId)
-            console.log('fds')
-
 
             let keys = [];
             if (data.messages != undefined)
