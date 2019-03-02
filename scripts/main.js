@@ -65,6 +65,7 @@ function sendMessage() {
     let time = new Date().getTime();
     let message = new Message(sendby,text,time);
     firebase.database().ref('conversations/'+ ConvoId +'/messages').push(message);
+    addFriend();
 }
 
 function findUser() {
@@ -173,15 +174,24 @@ const warn = (message) => {
 
 const getPeopleWhoWantToChat = () =>{
     refQueue.limitToFirst(1).once('value').then(function (snapshot) {
-        let user2 = snapshot.val()[Object.keys(snapshot.val())];
+        let user2 = snapshot.val();
         if(snapshot.val() === null){
             addToQueue();
+            refConversation.on('child_added', function (snapshot) {
+                for(let key in snapshot.val()){
+                    console.log(key);
+                }
+            })
         }
         else{
-            let conversation = new Conversation(firebase.auth().currentUser.uid,user2,null);
+            let user2Value = user2[Object.keys(user2)];
+            console.log(user2Value);
+            let conversation = new Conversation(firebase.auth().currentUser.uid,user2Value,null);
             ConvoId = refConversation.push().key;
             refConversation.child(ConvoId).set(conversation);
-            refQueue.child(user2).Remove();
+            refQueue.equalTo(user2Value).once('value').then(function (snapshot) {
+                snapshot.ref.remove();
+            })
         }
     });
 };
@@ -190,8 +200,28 @@ const addToQueue = () => {
     refQueue.push(firebase.auth().currentUser.uid);
 };
 
-
+const addFriend = () => {
+    let user1UID;
+    let user2UID;
+    firebase.database().ref('conversations/'+ ConvoId +'/u1').once('value').then(function (snapshot) {
+       if(snapshot.val())
+       { user1UID = snapshot.val()}
+    });
+    firebase.database().ref('conversations/'+ ConvoId +'/u2').once('value').then(function (snapshot) {
+        if(snapshot.val()) {
+            user2UID = snapshot.val();
+        }
+    });
+    let thisuserUID = firebase.auth().currentUser.uid;
+    let friendUID;
+    if(user1UID === thisuserUID){
+        friendUID = user1UID;
+    }
+    else {
+        friendUID = user2UID;
+    }
+};
 
 const makeConversation = () =>{
     getPeopleWhoWantToChat();
-};
+}
