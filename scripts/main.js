@@ -179,13 +179,17 @@ const getPeopleWhoWantToChat = () =>{
             addToQueue();
             refConversation.on('child_added', function (snapshot) {
                 for(let key in snapshot.val()){
-                    console.log(key);
+                    console.log(snapshot.val()[key]);
+                    if (snapshot.val()[key] === firebase.auth().currentUser.uid){
+                        ConvoId = snapshot.key;
+                        break;
+                    }
                 }
             })
         }
         else{
             let user2Value = user2[Object.keys(user2)];
-            console.log(user2Value);
+            //console.log(user2Value);
             let conversation = new Conversation(firebase.auth().currentUser.uid,user2Value,null);
             ConvoId = refConversation.push().key;
             refConversation.child(ConvoId).set(conversation);
