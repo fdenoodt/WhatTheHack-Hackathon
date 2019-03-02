@@ -58,9 +58,9 @@ const getMessages = () => {
 
 function sendMessage() {
     let text = document.getElementById('msg_text').value;
-    let sendby = firebase.auth().currentUser.uid;
+    let sender = firebase.auth().currentUser.uid;
     let time = new Date().getTime();
-    let message = new Message(sendby,text,time);
+    let message = new Message(text,time, sender);
     firebase.database().ref('conversations/'+ ConvoId +'/messages').push(message);
 }
 

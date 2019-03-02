@@ -5,7 +5,7 @@ class User {
     this.age = age;
     this.interests = interests;
     this.lsConversations = [];
-    
+    this.chatDisplay = new ChatDisplay();
     const that = this;
     refConversations.on('child_added', function (snapshot) {
       const messages = [];
@@ -22,6 +22,7 @@ class User {
 
       const conversation = new Conversation(data.u1, data.u2, messages);
       that.lsConversations.push(conversation);
+      that.chatDisplay.update(that.lsConversations);
     });
   }
 }
