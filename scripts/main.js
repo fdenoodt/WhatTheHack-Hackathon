@@ -19,6 +19,7 @@ const init = () => {
     document.querySelector('.' + page).style.display = 'none'
   }
 
+  //eventen ophalen
   firebase.database().ref('Events/').on('value', data => {
     data.forEach(element => {
       var key = element.val();
@@ -148,6 +149,7 @@ const login = () => {
 
 };
 
+//event maken
 /* let datetime = new Date();
 var Eventinfo = {
   name: "Workshop",
@@ -158,6 +160,7 @@ var Eventinfo = {
   description: "Extra info Here"
 }; */
 
+//event toevoegen aan database
 /* const Addevent =() => {
   firebase.database().ref('Events/').push(Eventinfo);
 } */
@@ -203,6 +206,7 @@ const saveProfile = () => {
     pfp: userObj.photoURL
   };
   refUsers.child(id).set(user);
+  console.log("profile saved")
 }
 
 const warn = (message) => {
