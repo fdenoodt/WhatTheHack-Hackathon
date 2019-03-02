@@ -1,11 +1,11 @@
 class User {
-  constructor(fName, lName, age, interests, friends) {
+  constructor(fName, lName, age, interests,experience) {
     this.fName = fName;
     this.lName = lName;
     this.age = age;
     this.interests = interests;
     this.lsConversations = [];
-    this.friends = friends;
+    this.experience = experience
     const that = this;
 
     refConversations.on('value', function (snapshot) {
