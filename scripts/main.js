@@ -14,6 +14,7 @@ let ConvoId;
 
 const init = () => {
   const pages = ['home', 'login', 'register', 'profile', 'chat', 'make_profile']
+  chatDisplay = new ChatDisplay()
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
   }
@@ -49,7 +50,6 @@ const init = () => {
   });
 
 
-
 };
 firebase.initializeApp(config);
 
@@ -59,6 +59,8 @@ const refUsers = firebase.database().ref('users/');
 const refQueue = firebase.database().ref('queue/');
 const refConversation = firebase.database().ref('conversations/');
 let user;
+let chatDisplay;
+
 
 const Messages = [];
 // Luister naar nieuwe berichten voeg toe aan berichten indien er nieuwe zijn
@@ -231,3 +233,7 @@ const addToQueue = () => {
 const makeConversation = () => {
   getPeopleWhoWantToChat();
 };
+
+const goToProfile = (userId) => {
+  router.goTo('profile')
+}
