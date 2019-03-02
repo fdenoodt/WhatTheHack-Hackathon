@@ -59,15 +59,20 @@
 <body onload="init()">
   <nav class="purple lighten-1">
     <div class="nav-wrapper">
-      <!--<a onclick="router.goTo('home')" class="brand-logo logo center-align" style="padding-left: 2em">InsertName</a>-->
-      <a class="brand-logo logo center-align" style="width: 100%">Chattrr</a>
+      <a onclick="router.goTo('home')" class="brand-logo logo center-align" style="width: 100%">Chattrr</a>
       <a data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li onclick="signOut()"><a>Sign out <i class="material-icons">exit_to_app</i></a></li>
+        <li onclick="signOut()"><a>Sign out</a></li>
       </ul>
     </div>
   </nav>
 
+  <style>
+      a:hover {
+          text-decoration: underline !important;
+          cursor: pointer;
+      } 
+  </style>
   <ul class="sidenav" id="mobile-demo">
     <li onclick="signOut()"><a>Sign out <i class="material-icons">exit_to_app</i></a></li>
   </ul>
