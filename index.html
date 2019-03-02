@@ -125,17 +125,20 @@
         </div>
 
         <div class="row">
-          <input id="login_inp_username" type="text" class="validate redUnderline" value="f@h.com">
+          <input id="login_inp_username" type="text" class="validate redUnderline" value="">
           <label class="active" for="login_inp_username">Username</label>
         </div>
         <div class="row">
-          <input id="login_inp_password" type="password" class="validate" value="topkek">
+          <input id="login_inp_password" type="password" class="validate" value="">
           <label class="active" for="login_inp_password">Password</label>
         </div>
         <!-- Add send icon -->
         <div class="row center-align">
           <button class="purple lighten-1 waves-effect waves-light btn" onclick="login()">Send</button>
           <button class="purple lighten-1 waves-effect waves-light btn" onclick="GoogleAuth()">Google</button>
+        </div>
+        <div class="row center-align">
+          <a style="color: dodgerblue" class="underline_on_hover" onclick="router.goTo('register')">Click here if you don't already have an account</a>
         </div>
       </div>
     </div>
@@ -160,6 +163,9 @@
           <div class="row center-align">
             <button class="purple lighten-1 waves-effect waves-light btn" onclick="register()">Send</button>
             <button class="purple lighten-1 waves-effect waves-light btn" onclick="GoogleAuth()">Google</button>
+          </div>
+          <div class="row center-align">
+            <a style="color: dodgerblue" class="underline_on_hover" onclick="router.goTo('login')">Or click here if you already own an account</a>
           </div>
         </div>
       </div>
