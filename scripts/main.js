@@ -167,7 +167,7 @@ const GoogleAuth = () => {
   firebase.auth().signOut().then(function () {
     warn("user logged out")
   })
-//}
+  //}
 
 }
 
@@ -199,3 +199,7 @@ const addToQueue = () => {
 const makeConversation = () => {
   getPeopleWhoWantToChat();
 };
+
+const goToProfile = (userId) => {
+  router.goTo('profile')
+}

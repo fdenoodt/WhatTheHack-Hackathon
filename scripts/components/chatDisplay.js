@@ -21,8 +21,8 @@ class ChatDisplay {
         <div class="chat_list" onclick=chatDisplay.showMessages('${convId}')>
           <div class="chat_people">
             <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-              <div class="chat_ib">
-                <h5>${name}</h5>
+              <div class="chat_ib"> 
+                <h5>${name} <span onclick="goToProfile('${id}')" class="chat_date"> <i class="material-icons" style='vertical-align: middle'>assignment_ind</i> Profile</span></h5>
               </div>
             </div>
           </div>`
