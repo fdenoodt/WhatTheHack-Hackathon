@@ -23,7 +23,8 @@ const init = () => {
       var key = element.val();
       document.getElementById("eventinformation").innerHTML += '<h1> ' + key.name + '</h1>';
       document.getElementById("eventinformation").innerHTML += '<p> ' + key.date + ' - ' + key.starttime + ' duration: ' + key.duration + '</p>';
-      document.getElementById("eventinformation").innerHTML += '<p> ' + key.Description + '</p>';
+      document.getElementById("eventinformation").innerHTML += '<p> ' + key.description + '</p>';
+      document.getElementById("eventinformation").innerHTML += '<p> ' + key.location + '</p>';
 
     });
 
@@ -149,6 +150,7 @@ const login = () => {
 var Eventinfo = {
   name: "Workshop",
   date: datetime.getDate(),
+  location: "Brussel"
   starttime: 13,
   duration: 2,
   description: "Extra info Here"
