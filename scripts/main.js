@@ -17,6 +17,17 @@ const init = () => {
     document.querySelector('.' + page).style.display = 'none'
   }
 
+  firebase.database().ref('Events/').on('value', data => {
+    data.forEach(element => {
+      var key = element.val();
+      document.getElementById("eventinformation").innerHTML += '<h1> ' + key.name + '</h1>';
+      document.getElementById("eventinformation").innerHTML += '<p> ' + key.date + ' - ' + key.starttime + ' duration: ' + key.duration + '</p>';
+      document.getElementById("eventinformation").innerHTML += '<p> ' + key.Description + '</p>';
+
+    });
+    
+  });
+
   router = new Router(pages);
 
   firebase.auth().onAuthStateChanged(function (u) {
@@ -37,6 +48,8 @@ const init = () => {
       router.goTo('home');
     }
   });
+
+  
 
 };
 firebase.initializeApp(config);
@@ -131,6 +144,18 @@ const login = () => {
 
 
 
+}
+
+var Eventinfo = {};
+Eventinfo.name = "Workshop";
+let datetime = new Date();
+Eventinfo.date = datetime.getDate();
+Eventinfo.starttime = 13;
+Eventinfo.duration = 2
+Eventinfo.Description = "Extra info hier"
+
+const Addevent =() => {
+  firebase.database().ref('Events/').push(Eventinfo);
 }
 
 const GoogleAuth = () => {
