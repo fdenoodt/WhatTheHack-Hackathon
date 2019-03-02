@@ -77,9 +77,7 @@ function sendMessage() {
   let sender = firebase.auth().currentUser.uid;
   let time = new Date().getTime();
   let message = new Message(text, time, sender);
-  console.log(ConvoId);
-    refConversations.child(ConvoId).child('messqges').push(message)
-  //firebase.database().ref('conversations/' + ConvoId + '/messages');
+  firebase.database().ref('conversations/' + ConvoId + '/messages').push(message);
 }
 
 function findUser() {
@@ -87,11 +85,6 @@ function findUser() {
 }
 
 //function
-
-const handleConfIniated = (convId) =>{
-    chatDisplay.showMessages(convId);
-    ConvoId = convId;
-};
 
 const register = () => {
   let email = document.getElementById("register_inp_username").value

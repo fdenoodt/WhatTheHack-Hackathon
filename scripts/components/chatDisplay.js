@@ -12,13 +12,15 @@ class ChatDisplay {
     for (const conv of lsConv) {
       if (conv.u1 == id)
         id = conv.u2;
+      else
+        id = conv.u1;
       refUsers.child('/' + id).once('value').then(function (snapshot) {
         const data = (snapshot.val())
         const name = data.fname + " " + data.lname;
         const convId = conv.id;
 
         that.convsDispl.innerHTML += `
-        <div class="chat_list" onclick=chatDisplay.showMessages('${convId}')>
+        <div class="chat_list" onclick=handleConfIniated('${convId}')>
           <div class="chat_people">
             <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
               <div class="chat_ib"> 
@@ -32,15 +34,24 @@ class ChatDisplay {
 
 
   showMessages(convId) {
-    var newArray = user.lsConversations.filter(function (el) {
+      console.log(convId)
+
+      var newArray = user.lsConversations.filter(function (el) {
       return el.id == convId;
     });
 
+
     const conv = newArray[0]
+
     this.msgDispl.innerHTML = '';
     for (const msg of conv.lsMessages) {
-      let id = firebase.auth().currentUser.uid;
-      if (id == conv.from) {
+        let id = firebase.auth().currentUser.uid;
+
+        console.log(msg)
+        console.log(id)
+
+
+      if (id == msg.from) {
         this.msgDispl.innerHTML += `
         <div class="outgoing_msg">
           <div class="sent_msg">
