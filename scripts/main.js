@@ -51,6 +51,8 @@ const init = () => {
   
       });
 
+      document.getElementById("pfpic").setAttribute("src",u.photoURL)
+
       router.goTo('chat');
     } else {
       // User is signed out.
