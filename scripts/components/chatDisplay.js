@@ -59,7 +59,7 @@ class ChatDisplay {
         <div class="outgoing_msg">
           <div class="sent_msg">
             <p>${msg.text}</p>
-            <span class="time_date">${new Date(msg.time * 1000)}</span>
+            <span class="time_date">${new Date(msg.time * 1000).toDateString()}</span>
           </div>
         </div>`
       }
@@ -71,7 +71,7 @@ class ChatDisplay {
               <div class="received_msg">
                 <div class="received_withd_msg">
                   <p>${msg.text}</p>
-                  <span class="time_date">${new Date(msg.time * 1000)}</span>
+                  <span class="time_date">${new Date(msg.time * 1000).toDateString()}</span>
                 </div>
               </div>
             </div>`

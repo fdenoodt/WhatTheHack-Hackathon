@@ -1,7 +1,7 @@
 class Router {
   constructor(lsPages) {
     this.lsPages = lsPages
-    this.goTo('home')
+    this.goTo('loadingScreen')
     // this.event = new Event('build')
   }
 
@@ -30,13 +30,8 @@ class Router {
 
     let pageToDisplay = this.getUrlVars().page;
     if (pageToDisplay == null)
-    pageToDisplay = 'home';
+    pageToDisplay = 'loadingScreen';
     
     document.querySelector('.' + pageToDisplay).style.display = 'block';
-
-
-    if(pageToDisplay == 'game')
-      findGame()
-    //TODO: page events
   }
 }

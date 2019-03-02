@@ -13,7 +13,7 @@ let ConvoId;
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile', 'chat','QRcode','QRreader','make_profile']
+  const pages = ['home', 'login', 'register', 'profile', 'chat','QRcode','QRreader','make_profile', 'loadingScreen']
   chatDisplay = new ChatDisplay()
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
@@ -287,11 +287,6 @@ const onProfileLoaded = (userId) => {
         document.querySelector('.profile_interests').innerHTML += inter + '<br>'
 
       });
-
-      console.log();
-
-
-
     });
   }
 

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Hackathon</title>
+  <title>Chattrr</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- bootstrap chat ui -->
@@ -50,8 +50,9 @@
   <script src="scripts/components/conversation.js"></script>
   <script src="scripts/main.js"></script>
   <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
-  
-  <script type="text/javascript" src="https://rawcdn.githack.com/tobiasmuehl/instascan/4224451c49a701c04de7d0de5ef356dc1f701a93/bin/instascan.min.js"></script>
+
+  <script type="text/javascript"
+    src="https://rawcdn.githack.com/tobiasmuehl/instascan/4224451c49a701c04de7d0de5ef356dc1f701a93/bin/instascan.min.js"></script>
 
 </head>
 
@@ -71,6 +72,32 @@
   </ul>
 
   <div class="container">
+
+    <div class="loadingScreen">
+      <div class="row">
+        <div class="col s12 center-align">
+          <div class="section">
+            <h5>Loading..</h5>
+          </div>
+          <div class="section">
+            <div class="preloader-wrapper small active">
+              <div class="spinner-layer spinner-purple-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                  <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="home section center-align">
       <h1>
         Welcome to<br>
@@ -159,7 +186,7 @@
                 Age: <span id="profile_age" class="profile_age">21</span><br>
               </p>
               <p>
-                Experience: <span id="profile_experience"class="profile_experience">50</span><br>
+                Experience: <span id="profile_experience" class="profile_experience">50</span><br>
               </p>
               <p>
                 Interests: <span id="profile_interests" class="profile_interests">xxx</span><br>
@@ -168,9 +195,12 @@
               <div class="row left-align">
                 <button class="purple lighten-1 waves-effect waves-light btn">Chat</button>
                 <button class="purple lighten-1 waves-effect waves-light btn">Remove</button>
-                <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('QRcode');">QRcode</button>
-                <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('QRreader');">QRScanner</button> 
-                <button class="purple lighten-1 waves-effect waves-light btn" onclick="firebase.auth().signOut(); router.goTo('Home');">Log out</button> 
+                <button class="purple lighten-1 waves-effect waves-light btn"
+                  onclick="router.goTo('QRcode');">QRcode</button>
+                <button class="purple lighten-1 waves-effect waves-light btn"
+                  onclick="router.goTo('QRreader');">QRScanner</button>
+                <button class="purple lighten-1 waves-effect waves-light btn"
+                  onclick="firebase.auth().signOut(); router.goTo('Home');">Log out</button>
               </div>
             </div>
           </div>
@@ -186,75 +216,38 @@
               <div class="recent_heading">
                 <h4>Recent</h4>
               </div>
-              <!-- <div class="srch_bar">
-                    <div class="stylish-input-group">
-                      <input type="text" class="search-bar"  placeholder="Search" >
-                      <span class="input-group-addon">
-                      <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-                      </span> </div>
-                  </div> -->
+              <div>
+                <button style="float: right" class="purple lighten-1 waves-effect waves-light btn"
+                  onclick="makeConversation()">
+                  <i class="material-icons">add</i>
+                </button>
+                <!-- <button class="msg_send_btn" type="button" ><i class="fa fa-paper-plane-o" -->
+                <!-- aria-hidden="true"></i> -->
+                <!-- </button> -->
+                <!-- <div class="stylish-input-group">
+                  <input type="text" class="search-bar" placeholder="Search">
+                  <span class="input-group-addon">
+                    <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                  </span>
+                </div> -->
+              </div>
             </div>
             <div class="inbox_chat">
-              <!-- <div class="chat_list active_chat">
-                <div class="chat_people">
-                  <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                  <div class="chat_ib">
-                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                    <p>lol, which is a new approach to have all solutions
-                      astrology under one roof.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="chat_list">
-                <div class="chat_people">
-                  <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                  <div class="chat_ib">
-                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                    <p>Test, which is a new approach to have all solutions
-                      astrology under one roof.</p>
-                  </div>
-                </div>
-              </div> -->
-              <!-- <div class="chat_list">
-                <div class="chat_people">
-                  <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                  <div class="chat_ib">
-                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                    <p>Test, which is a new approach to have all solutions
-                      astrology under one roof.</p>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
           <div class="mesgs">
             <div class="msg_history">
-              <!-- <div class="incoming_msg">
-                <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-                </div>
-                <div class="received_msg">
-                  <div class="received_withd_msg">
-                    <p>Test which is a new approach to have all
-                      solutions</p>
-                    <span class="time_date"> 11:01 AM | June 9</span>
-                  </div>
-                </div>
-              </div> -->
-              <!-- <div class="outgoing_msg">
-                <div class="sent_msg">
-                  <p>Test which is a new approach to have all
-                    solutions</p>
-                  <span class="time_date"> 11:01 AM | June 9</span>
-                </div>
-              </div> -->
             </div>
-            <button class="msg_send_btn" type="button" onclick="makeConversation()"><i class="fa fa-paper-plane-o"
-                aria-hidden="true"></i></button>
             <div class="type_msg">
               <div class="input_msg_write">
                 <input type="text" class="write_msg" placeholder="Type a message" id="msg_text" />
-                <button class="msg_send_btn" type="button" onclick="sendMessage()"><i class="fa fa-paper-plane-o"
-                    aria-hidden="true"></i></button>
+                <button class="purple lighten-1 waves-effect waves-light btn msg_send_btn"
+                  onclick="sendMessage()">
+                  <i class="material-icons">send</i>
+                </button>
+
+                <!-- <button class="msg_send_btn" type="button" onclick="sendMessage()"><i class="fa fa-paper-plane-o" -->
+                <!-- aria-hidden="true"></i></button> -->
               </div>
             </div>
           </div>
@@ -308,13 +301,15 @@
     <div id="qrcode"></div>
     <!-- QR code END-->
   </div>
-    <div class="QRreader">
-      <video id="preview"></video>
-      <script src="scripts/qrreader.js"></script>
-    </div>
+  <div class="QRreader">
+    <video id="preview"></video>
+    <script src="scripts/qrreader.js"></script>
+  </div>
 
-    
-    <script src="scripts/qr.js"></script>
+
+
+
+  <script src="scripts/qr.js"></script>
 </body>
 
 </html>

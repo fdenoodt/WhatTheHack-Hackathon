@@ -186,17 +186,9 @@ img {
 }
 
 .msg_send_btn {
-  background: #05728f none repeat scroll 0 0;
-  border: medium none;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  font-size: 17px;
-  height: 33px;
   position: absolute;
   right: 0;
-  top: 11px;
-  width: 33px;
+  top: 6px;
 }
 
 .messaging {
