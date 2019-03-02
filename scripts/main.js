@@ -73,11 +73,16 @@ const getMessages = () => {
 };
 
 function sendMessage() {
-  let text = document.getElementById('msg_text').value;
-  let sender = firebase.auth().currentUser.uid;
-  let time = new Date().getTime();
-  let message = new Message(text, time, sender);
-  refConversations.child(ConvoId).child('messages').push(message)
+  if (ConvoId == null) {
+  }
+  else {
+    let text = document.getElementById('msg_text').value;
+    let sender = firebase.auth().currentUser.uid;
+    let time = new Date().getTime();
+    let message = new Message(text, time, sender);
+    refConversations.child(ConvoId).child('messages').push(message)
+    document.querySelector('.write_msg').value = ''
+  }
 }
 
 function findUser() {
@@ -87,8 +92,8 @@ function findUser() {
 //function
 
 const handleConfIniated = (convId) => {
-  chatDisplay.showMessages(convId);
   ConvoId = convId;
+  chatDisplay.showMessages(convId);
 };
 
 const register = () => {

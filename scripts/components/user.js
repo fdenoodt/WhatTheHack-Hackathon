@@ -10,17 +10,13 @@ class User {
 
     refConversations.on('value', function (snapshot) {
       that.lsConversations = [];
-      console.log(snapshot.val());
-
-      const messages = [];
       let data = snapshot.val()
       const nKeys = Object.keys(data)
       nKeys.forEach(nKey => {
-        // const nKeys = Object.keys(data)[0]
+        const messages = [];
         const data2 = data[nKey]
-        console.log(data2);
         const conversationId = nKey;
-
+        console.log(data2)
         let keys = [];
         if (data2.messages != undefined)
           keys = Object.keys(data2.messages);
@@ -31,6 +27,7 @@ class User {
         }
         const conversation = new Conversation(data2.u1, data2.u2, messages, conversationId);
         that.lsConversations.push(conversation);
+        // console.log(conversation);
       });
 
       chatDisplay.update(that.lsConversations);

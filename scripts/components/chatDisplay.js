@@ -43,10 +43,10 @@ class ChatDisplay {
 
   showMessages(convId) {
     this.selectedConv = convId;
+
     var newArray = user.lsConversations.filter(function (el) {
       return el.id == convId;
     });
-    console.log(newArray)
 
     const conv = newArray[0]
 
@@ -78,6 +78,13 @@ class ChatDisplay {
       }
 
     }
+
+    this.msgDispl.innerHTML += "<span id='down'></span>";
+    var mydiv = $("#down");
+    mydiv.scrollTop(mydiv.prop("scrollHeight"));
+
+    var myDiv = $(".msg_history").get(0);
+    myDiv.scrollTop = myDiv.scrollHeight;
 
 
   }
