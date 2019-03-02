@@ -48,6 +48,7 @@ let opts = {
             const data = snapshot.val();
             console.log(data);
             refUsers.child(id+"/experience").set(data+10);
+            alert('Qrcode gescand');
             })
             }
             else{
