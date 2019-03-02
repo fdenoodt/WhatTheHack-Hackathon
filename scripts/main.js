@@ -43,7 +43,6 @@ const init = () => {
 firebase.initializeApp(config);
 
 const database = firebase.database();
-const refMessage = firebase.database().ref('messages/');
 const refUsers = firebase.database().ref('users/');
 const refQueue = firebase.database().ref('queue/');
 const refConversation = firebase.database().ref('conversations/');
