@@ -8,7 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- bootstrap chat ui -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+    rel="stylesheet">
 
   <!-- Materializecss -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -44,16 +45,21 @@
   <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
   <script src="scripts/components/router.js"></script>
   <script src="scripts/components/user.js"></script>
+  <script src="scripts/components/chatDisplay.js"></script>
   <script src="scripts/components/message.js"></script>
   <script src="scripts/components/conversation.js"></script>
   <script src="scripts/main.js"></script>
+  <script src=" https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+  <script type="text/javascript"
+    src="https://rawcdn.githack.com/tobiasmuehl/instascan/4224451c49a701c04de7d0de5ef356dc1f701a93/bin/instascan.min.js"></script>
 
 </head>
 
 <body onload="init()">
   <nav class="purple lighten-1">
     <div class="nav-wrapper">
-      <a onclick="router.goTo('home')" class="brand-logo logo">InsertName</a>
+      <a onclick="router.goTo('home')" class="brand-logo logo" style="padding-left: 2em">InsertName</a>
       <a data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li><a onclick="router.goTo('home')">Home</a></li>
@@ -79,6 +85,11 @@
       <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('register')">
         Register
       </button>
+      <!--events-->
+      <!-- <button class="purple lighten-1 waves-effect waves-light btn" onclick="Addevent()">
+        AddEvent
+      </button> -->
+      <div id="eventinformation"></div>
     </div>
 
     <div class="login">
@@ -128,15 +139,13 @@
           </div>
         </div>
       </div>
-
-
     </div>
 
     <div class="profile">
       <div class="row">
         <div class="col s12 center-align">
           <div class="section">
-            <h5><span class="logo">Hello</span> <span class="username">Loading</span></h5>
+            <h5><span class="logo">Profile</span> <span class="username">Page</span></h5>
           </div>
         </div>
         <div class="section">
@@ -147,16 +156,13 @@
 
             <div class="col s6 left-align">
               <p>
-                Name: <span class="name">Fabian Denoodt</span><br>
+                Name: <span class="profile_name">Fabian Denoodt</span><br>
               </p>
               <p>
-                Age: <span class="name">21</span><br>
+                Age: <span class="profile_age">21</span><br>
               </p>
               <p>
-                Gender: <span class="name">21</span><br>
-              </p>
-              <p>
-                Interests: <span class="name">21</span><br>
+                Interests: <span class="profile_interests">xxx</span><br>
               </p>
 
               <div class="row left-align">
@@ -186,7 +192,7 @@
                   </div> -->
             </div>
             <div class="inbox_chat">
-              <div class="chat_list active_chat">
+              <!-- <div class="chat_list active_chat">
                 <div class="chat_people">
                   <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                   <div class="chat_ib">
@@ -205,8 +211,8 @@
                       astrology under one roof.</p>
                   </div>
                 </div>
-              </div>
-              <div class="chat_list">
+              </div> -->
+              <!-- <div class="chat_list">
                 <div class="chat_people">
                   <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                   <div class="chat_ib">
@@ -215,12 +221,12 @@
                       astrology under one roof.</p>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="mesgs">
             <div class="msg_history">
-              <div class="incoming_msg">
+              <!-- <div class="incoming_msg">
                 <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
                 </div>
                 <div class="received_msg">
@@ -230,16 +236,17 @@
                     <span class="time_date"> 11:01 AM | June 9</span>
                   </div>
                 </div>
-              </div>
-              <div class="outgoing_msg">
+              </div> -->
+              <!-- <div class="outgoing_msg">
                 <div class="sent_msg">
                   <p>Test which is a new approach to have all
                     solutions</p>
                   <span class="time_date"> 11:01 AM | June 9</span>
                 </div>
-              </div>
+              </div> -->
             </div>
-            <button class="msg_send_btn" type="button" onclick="makeConversation()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+            <button class="msg_send_btn" type="button" onclick="makeConversation()"><i class="fa fa-paper-plane-o"
+                aria-hidden="true"></i></button>
             <div class="type_msg">
               <div class="input_msg_write">
                 <input type="text" class="write_msg" placeholder="Type a message" id="msg_text" />
@@ -251,10 +258,109 @@
         </div>
 
 
-        </div>
       </div>
+    </div>
   </div>
 
+  <div class="make_profile">
+    <div class="row">
+      <div class="col s12 center-align">
+        <div class="section">
+          <h5><span class="logo">Make</span>Profile</h5>
+        </div>
+      </div>
+      <div class="row">
+        <label class="active" for="register_inp_lastname">Last Name</label>
+        <input id="register_inp_lastname" type="text">
+      </div>
+      <div class="row">
+        <div class="row">
+          <label class="active" for="register_inp_age">Age</label>
+          <input id="register_inp_age" type="text">
+        </div>
+        <div class="row">
+          <label class="active" for="register_inp_interests">Interests</label>
+          <label class="active" for="register_inp_interest1">Interest 1</label>
+          <input id="register_inp_interest1" type="text">
+          <label class="active" for="register_inp_interest2">Interest 2</label>
+          <input id="register_inp_interest2" type="text">
+          <label class="active" for="register_inp_interest3">Interest 3</label>
+          <input id="register_inp_interest3" type="text">
+        </div>
+        <div class="row">
+          <label class="active" for="register_inp_bio">Bio</label>
+          <input id="register_inp_bio" type="text">
+        </div>
+        <div class="row center-align">
+          <button class="purple lighten-1 waves-effect waves-light btn" onclick="saveProfile()">Save Profile</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  </div>
+  <!-- QR code-->
+  <input id="text" type="text" value="https://hogangnono.com" style="width:80%" /><br />
+  <div id="qrcode"></div>
+  <!-- QR code END-->
+
+  <video id="preview"></video>
+
+  <script type="text/javascript">
+
+    let opts = {
+      // Whether to scan continuously for QR codes. If false, use scanner.scan() to manually scan.
+      // If true, the scanner emits the "scan" event when a QR code is scanned. Default true.
+      continuous: true,
+
+      // The HTML element to use for the camera's video preview. Must be a <video> element.
+      // When the camera is active, this element will have the "active" CSS class, otherwise,
+      // it will have the "inactive" class. By default, an invisible element will be created to
+      // host the video.
+      video: document.getElementById('preview'),
+
+      // Whether to horizontally mirror the video preview. This is helpful when trying to
+      // scan a QR code with a user-facing camera. Default true.
+      mirror: true,
+
+      // Whether to include the scanned image data as part of the scan result. See the "scan" event
+      // for image format details. Default false.
+      captureImage: false,
+
+      // Only applies to continuous mode. Whether to actively scan when the tab is not active.
+      // When false, this reduces CPU usage when the tab is not active. Default true.
+      backgroundScan: true,
+
+      // Only applies to continuous mode. The period, in milliseconds, before the same QR code
+      // will be recognized in succession. Default 5000 (5 seconds).
+      refractoryPeriod: 5000,
+
+      // Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
+      // increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
+      scanPeriod: 1
+    };
+
+    let scanner = new Instascan.Scanner(opts)
+
+    //let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    scanner.addListener('scan', function (content) {
+      console.log(content);
+      //TODO check geolocation
+    });
+    Instascan.Camera.getCameras().then(function (cameras) {
+      if (cameras.length > 0) {
+        scanner.start(cameras[0]);
+        //console.log(cameras[0].)
+      } else {
+        console.error('No cameras found.');
+      }
+    }).catch(function (e) {
+      console.error(e);
+    });
+  </script>
+
+  <script src="scripts/qr.js"></script>
 </body>
 
 </html>
