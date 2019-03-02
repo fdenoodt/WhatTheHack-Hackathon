@@ -1,7 +1,7 @@
 class Router {
   constructor(lsPages) {
     this.lsPages = lsPages
-    this.goTo('loadingScreen')
+    this.goTo('home')
     // this.event = new Event('build')
   }
 
@@ -30,7 +30,7 @@ class Router {
 
     let pageToDisplay = this.getUrlVars().page;
     if (pageToDisplay == null)
-    pageToDisplay = 'loadingScreen';
+    pageToDisplay = 'home';
     
     document.querySelector('.' + pageToDisplay).style.display = 'block';
   }
