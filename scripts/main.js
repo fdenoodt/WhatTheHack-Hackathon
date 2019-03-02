@@ -238,6 +238,32 @@ const makeConversation = () => {
   getPeopleWhoWantToChat();
 };
 
+
 const goToProfile = (userId) => {
   router.goTo('profile')
+  onProfileLoaded(userId)
+}
+
+const onProfileLoaded = (userId) => {
+  if (userId == null)
+    goTo('home')
+  else {
+    refUsers.child('/' + userId).once('value').then(function (snapshot) {
+      const data = snapshot.val();
+      document.querySelector('.profile_name').innerHTML = data.fname + ' ' + data.lname
+      document.querySelector('.profile_age').innerHTML = data.age
+      document.querySelector('.profile_interests').innerHTML = ''
+
+      data.interests.forEach(inter => {
+        document.querySelector('.profile_interests').innerHTML += inter + '<br>'
+
+      });
+
+      console.log();
+
+
+
+    });
+  }
+
 }
