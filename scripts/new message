@@ -13,14 +13,11 @@ let ConvoId;
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile', 'chat','QRcode','QRreader','make_profile']
+  const pages = ['home', 'login', 'register', 'profile', 'chat', 'make_profile']
   chatDisplay = new ChatDisplay()
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
   }
-
-  document.getElementById("buttonjoinchat").style.display = "block"
-    document.getElementById("buttonsendmessage").style.display = "none"
 
   //eventen ophalen
   firebase.database().ref('Events/').on('value', data => {
@@ -43,12 +40,7 @@ const init = () => {
       const id = u.uid;
       refUsers.child('/' + id).once('value').then(function (snapshot) {
         const data = snapshot.val();
-        user = new User(data.fname, data.lname, data.age, data.interests,data.experience);
-        document.getElementById("profile_name").innerHTML = user.fName +' '+ user.lName ;
-        document.getElementById("profile_age").innerHTML = user.age;
-        document.getElementById("profile_experience").innerHTML = user.experience;
-        document.getElementById("profile_interests").innerHTML = user.interests;
-  
+        user = new User(data.fname, data.lname, data.age, data.interests);
       });
 
       router.goTo('chat');
@@ -81,16 +73,11 @@ const getMessages = () => {
 };
 
 function sendMessage() {
-  if (ConvoId == null) {
-  }
-  else {
-    let text = document.getElementById('msg_text').value;
-    let sender = firebase.auth().currentUser.uid;
-    let time = new Date().getTime();
-    let message = new Message(text, time, sender);
-    refConversations.child(ConvoId).child('messages').push(message)
-    document.querySelector('.write_msg').value = ''
-  }
+  let text = document.getElementById('msg_text').value;
+  let sender = firebase.auth().currentUser.uid;
+  let time = new Date().getTime();
+  let message = new Message(text, time, sender);
+  firebase.database().ref('conversations/' + ConvoId + '/messages').push(message);
 }
 
 function findUser() {
@@ -98,11 +85,6 @@ function findUser() {
 }
 
 //function
-
-const handleConfIniated = (convId) => {
-  ConvoId = convId;
-  chatDisplay.showMessages(convId);
-};
 
 const register = () => {
   let email = document.getElementById("register_inp_username").value
@@ -220,8 +202,7 @@ const saveProfile = () => {
     age: document.getElementById("register_inp_age").value,
     interests: [document.getElementById("register_inp_interest1").value, document.getElementById("register_inp_interest2").value, document.getElementById("register_inp_interest3").value],
     bio: document.getElementById("register_inp_bio").value,
-    pfp: userObj.photoURL,
-    experience: 0
+    pfp: userObj.photoURL
   };
   refUsers.child(id).set(user);
   console.log("profile saved")
@@ -231,40 +212,61 @@ const warn = (message) => {
   console.log(message)
 };
 
-const getPeopleWhoWantToChat = () => {
-  refQueue.limitToFirst(1).once('value').then(function (snapshot) {
-    let user2 = snapshot.val();
-    if (snapshot.val() === null) {
-      addToQueue();
-      refConversations.on('child_added', function (snapshot) {
-        for (let key in snapshot.val()) {
-          console.log(snapshot.val()[key]);
-          if (snapshot.val()[key] === firebase.auth().currentUser.uid) {
-            ConvoId = snapshot.key;
-            break;
-          }
+const getPeopleWhoWantToChat = () =>{
+    refQueue.limitToFirst(1).once('value').then(function (snapshot) {
+        let user2 = snapshot.val();
+        if(snapshot.val() === null){
+            addToQueue();
+            refConversations.on('child_added', function (snapshot) {
+                for(let key in snapshot.val()){
+                    console.log(snapshot.val()[key]);
+                    if (snapshot.val()[key] === firebase.auth().currentUser.uid){
+                        ConvoId = snapshot.key;
+                        break;
+                    }
+                }
+            })
         }
-      })
-    }
-    else {
-      let user2Value = user2[Object.keys(user2)];
-      if (firebase.auth().currentUser.uid !== user2Value) {
-        //console.log(user2Value);
-        ConvoId = refConversations.push().key;
-        let conversation = new Conversation(firebase.auth().currentUser.uid, user2Value, null, ConvoId);
-        refConversations.child(ConvoId).set(conversation);
-        refQueue.equalTo(user2Value).once('value').then(function (snapshot) {
-          snapshot.ref.remove();
-        })
-      }
-    }
-  });
+        else {
+            let user2Value = user2[Object.keys(user2)];
+            if (firebase.auth().currentUser.uid !== user2Value) {
+                //console.log(user2Value);
+                ConvoId = refConversations.push().key;
+                let conversation = new Conversation(firebase.auth().currentUser.uid, user2Value, null,ConvoId);
+                refConversations.child(ConvoId).set(conversation);
+                refQueue.equalTo(user2Value).once('value').then(function (snapshot) {
+                    snapshot.ref.remove();
+                })
+            }
+        }
+    });
 };
 
 const addToQueue = () => {
   refQueue.push(firebase.auth().currentUser.uid);
 };
 
+const addFriend = () => {
+    let user1UID;
+    let user2UID;
+    firebase.database().ref('conversations/'+ ConvoId +'/u1').once('value').then(function (snapshot) {
+       if(snapshot.val())
+       { user1UID = snapshot.val()}
+    });
+    firebase.database().ref('conversations/'+ ConvoId +'/u2').once('value').then(function (snapshot) {
+        if(snapshot.val()) {
+            user2UID = snapshot.val();
+        }
+    });
+    let thisuserUID = firebase.auth().currentUser.uid;
+    let friendUID;
+    if(user1UID === thisuserUID){
+        friendUID = user1UID;
+    }
+    else {
+        friendUID = user2UID;
+    }
+};
 
 const makeConversation = () => {
   getPeopleWhoWantToChat();
@@ -282,9 +284,9 @@ const onProfileLoaded = (userId) => {
   else {
     refUsers.child('/' + userId).once('value').then(function (snapshot) {
       const data = snapshot.val();
-      document.querySelector('.profile_name').innerHTML = data.fname + ' ' + data.lname;
-      document.querySelector('.profile_age').innerHTML = data.age;
-      document.querySelector('.profile_interests').innerHTML = '';
+      document.querySelector('.profile_name').innerHTML = data.fname + ' ' + data.lname
+      document.querySelector('.profile_age').innerHTML = data.age
+      document.querySelector('.profile_interests').innerHTML = ''
 
       data.interests.forEach(inter => {
         document.querySelector('.profile_interests').innerHTML += inter + '<br>'

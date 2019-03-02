@@ -58,25 +58,23 @@
 <body onload="init()">
   <nav class="purple lighten-1">
     <div class="nav-wrapper">
-      <a onclick="router.goTo('home')" class="brand-logo logo" style="padding-left: 2em">InsertName</a>
+      <!--<a onclick="router.goTo('home')" class="brand-logo logo center-align" style="padding-left: 2em">InsertName</a>-->
+      <a class="brand-logo logo center-align" style="width: 100%">Chattrr</a>
       <a data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li><a onclick="router.goTo('home')">Home</a></li>
-        <li><a onclick="router.goTo('profile')">Profile</a></li>
       </ul>
     </div>
   </nav>
 
   <ul class="sidenav" id="mobile-demo">
-    <li><a onclick="router.goTo('game')">Join game</a></li>
-    <li><a onclick="router.goTo('profile')">Profile</a></li>
   </ul>
 
   <div class="container">
     <div class="home section center-align">
       <h1>
         Welcome to<br>
-        [<span class="purple-text text-lighten-1">Insert</span>Name]
+        <span class="purple-text text-lighten-1">Chattrr</span>
       </h1>
       <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('login')">
         Sign in

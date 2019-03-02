@@ -8,22 +8,28 @@ class User {
     this.experience = experience
     const that = this;
 
-    refConversations.on('child_added', function (snapshot) {
-      const messages = [];
-      const data = snapshot.val();
-      const conversationId = snapshot.ref.key;
+    refConversations.on('value', function (snapshot) {
+      that.lsConversations = [];
+      let data = snapshot.val()
+      const nKeys = Object.keys(data)
+      nKeys.forEach(nKey => {
+        const messages = [];
+        const data2 = data[nKey]
+        const conversationId = nKey;
+        console.log(data2)
+        let keys = [];
+        if (data2.messages != undefined)
+          keys = Object.keys(data2.messages);
 
+        for (const key of keys) {
+          const dataText = data2.messages[key];
+          messages.push(new Message(dataText.text, dataText.time, dataText.from));
+        }
+        const conversation = new Conversation(data2.u1, data2.u2, messages, conversationId);
+        that.lsConversations.push(conversation);
+        // console.log(conversation);
+      });
 
-      let keys = [];
-      if (data.messages != undefined)
-        keys = Object.keys(data.messages);
-
-      for (const key of keys) {
-        const dataText = data.messages[key];
-        messages.push(new Message(dataText.text, dataText.time, dataText.ufrom));
-      }
-      const conversation = new Conversation(data.u1, data.u2, messages, conversationId);
-      that.lsConversations.push(conversation);
       chatDisplay.update(that.lsConversations);
     });
   }
