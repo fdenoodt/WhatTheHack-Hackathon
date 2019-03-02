@@ -38,11 +38,26 @@ let opts = {
       //TODO check geolocation
       const id = firebase.auth().currentUser.uid;
       if(content != id){
-      refUsers.child(id+"/experience").once('value').then(function (snapshot) {
-        const data = snapshot.val();
-        console.log(data);
-        refUsers.child(id+"/experience").set(data+10);
-        })
+        firebase.database().ref('users').once('value').then(function (snapshot) {
+          const data = snapshot.val();
+          console.log(data);
+          var lijstids = Object.keys(data);
+          lijstids.forEach(element => {
+            if(content == element){
+          refUsers.child(id+"/experience").once('value').then(function (snapshot) {
+            const data = snapshot.val();
+            console.log(data);
+            refUsers.child(id+"/experience").set(data+10);
+            })
+            }
+            else{
+              console.log("qrcode invalid");
+            }
+          });
+
+          })
+
+
       }
       else{
         console.log("eigen qr code");
