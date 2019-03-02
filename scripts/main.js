@@ -78,8 +78,6 @@ function sendMessage() {
   let time = new Date().getTime();
   let message = new Message(text, time, sender);
   refConversations.child(ConvoId).child('messages').push(message)
-  // addFriend();
-  //7firebase.database().ref('conversations/' + ConvoId + '/messages');
 }
 
 function findUser() {
@@ -253,31 +251,6 @@ const addToQueue = () => {
   refQueue.push(firebase.auth().currentUser.uid);
 };
 
-const addFriend = () => {
-  let user1UID;
-  let user2UID;
-
-  firebase.database().ref('conversations/' + ConvoId + '/u1').once('value').then(function (snapshot) {
-    if (snapshot.val()) { user1UID = snapshot.val() }
-  });
-  firebase.database().ref('conversations/' + ConvoId + '/u2').once('value').then(function (snapshot) {
-    if (snapshot.val()) {
-      user2UID = snapshot.val();
-    }
-  });
-  let thisuserUID = firebase.auth().currentUser.uid;
-  let friendUID;
-  if (user1UID === thisuserUID) {
-    friendUID = user2UID;
-  }
-  else {
-    friendUID = user1UID;
-  }
-  refUsers.child(friendUID).child('requests').push(thisuserUID)
-  refUsers.child(thisuserUID).child('requests').on('child_added', function (snapshot) {
-    console.log(snapshot.val());
-  })
-};
 
 const makeConversation = () => {
   getPeopleWhoWantToChat();
