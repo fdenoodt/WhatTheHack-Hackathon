@@ -13,7 +13,7 @@ let ConvoId;
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile', 'chat','QRcode','QRreader','make_profile', 'loadingScreen']
+  const pages = ['home', 'login', 'register', 'profile', 'chat', 'QRcode', 'QRreader', 'make_profile', 'loadingScreen']
   chatDisplay = new ChatDisplay()
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
@@ -40,12 +40,12 @@ const init = () => {
       const id = u.uid;
       refUsers.child('/' + id).once('value').then(function (snapshot) {
         const data = snapshot.val();
-        user = new User(data.fname, data.lname, data.age, data.interests,data.experience);
-        document.getElementById("profile_name").innerHTML = user.fName +' '+ user.lName ;
+        user = new User(data.fname, data.lname, data.age, data.interests, data.experience);
+        document.getElementById("profile_name").innerHTML = user.fName + ' ' + user.lName;
         document.getElementById("profile_age").innerHTML = user.age;
         document.getElementById("profile_experience").innerHTML = user.experience;
         document.getElementById("profile_interests").innerHTML = user.interests;
-  
+
       });
 
       router.goTo('chat');
@@ -140,28 +140,31 @@ const login = () => {
     .catch(function (error) {
       warn("error logging in")
     })
-  // };
-
-  //logout
-  // firebase.auth().signOut().then(function () {
-  //   warn("user logged out")
-  // }).catch(function (error) {
-  //   var errorCode = error.code;
-  //   var errorMessage = error.message;
-  //   firebase.auth().onAuthStateChanged(function (user) {
-  //     if (user) {
-  //       warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
-  //       app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
-  //     } else {
-  //       warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
-  //       app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
-  //     }
-  //   });
-  // });
-
-
-
 };
+// };
+
+const signOut = () => {
+  // logout
+  firebase.auth().signOut().then(function () {
+    warn("user logged out")
+  }).catch(function (error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
+        app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User is still logged in")
+      } else {
+        warn("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
+        app.dialog.alert("Error code:" + errorCode + " " + errorMessage + " An error happened while logging out, User has Logged out")
+      }
+    });
+  });
+
+}
+
+
+
 
 //event maken
 /* let datetime = new Date();
