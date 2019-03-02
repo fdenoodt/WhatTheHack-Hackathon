@@ -257,18 +257,18 @@ const addToQueue = () => {
 const addFriend = () => {
     let user1UID;
     let user2UID;
-    refConversations.once('value').then(function (test) {
-        console.log(test);
+    console.log(ConvoId);
+
+    refConversations.child(ConvoId).child('/u1').once('value').then(function (snapshot) {
+
+        user1UID = snapshot.val();
+
+    })
+    refConversations.child(ConvoId).child('/u2').once('value').then(function (snapshot) {
+        
+        user2UID=snapshot.val();
+
     })/*
-    firebase.database().ref('conversations/'+ ConvoId ).once('value').then(function (snapshot) {
-       if(snapshot.val())
-       { user1UID = snapshot.val()}
-    });
-    firebase.database().ref('conversations/'+ ConvoId ).once('value').then(function (snapshot) {
-        if(snapshot.val()) {
-            user2UID = snapshot.val();
-        }
-    });*/
     let thisuserUID = firebase.auth().currentUser.uid;
     let friendUID;
     if(user1UID === thisuserUID){
@@ -277,10 +277,10 @@ const addFriend = () => {
     else {
         friendUID = user1UID;
     }
-    refUsers.child(friendUID).child('requests').push(thisuserUID)
+    refUsers.child(friendUID).child('requests').push(thisuserUID);
     refUsers.child(thisuserUID).child('requests').on('child_added',function (snapshot) {
         console.log(snapshot.val());
-    })
+    }) */
 };
 
 const makeConversation = () => {
