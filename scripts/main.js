@@ -227,15 +227,17 @@ const getPeopleWhoWantToChat = () =>{
                 }
             })
         }
-        else{
+        else {
             let user2Value = user2[Object.keys(user2)];
-            //console.log(user2Value);
-            let conversation = new Conversation(firebase.auth().currentUser.uid,user2Value,null);
-            ConvoId = refConversations.push().key;
-            refConversations.child(ConvoId).set(conversation);
-            refQueue.equalTo(user2Value).once('value').then(function (snapshot) {
-                snapshot.ref.remove();
-            })
+            if (firebase.auth().currentUser.uid !== user2Value) {
+                //console.log(user2Value);
+                let conversation = new Conversation(firebase.auth().currentUser.uid, user2Value, null);
+                ConvoId = refConversations.push().key;
+                refConversations.child(ConvoId).set(conversation);
+                refQueue.equalTo(user2Value).once('value').then(function (snapshot) {
+                    snapshot.ref.remove();
+                })
+            }
         }
     });
 };
