@@ -47,11 +47,15 @@ const init = () => {
         document.getElementById("profile_interests").innerHTML = user.interests;
 
       });
-
+        document.querySelector('.not_logged_in').style.display = 'none';
+        document.querySelector('.logged_in').style.display =  'block';
       router.goTo('chat');
     } else {
       // User is signed out.
       router.goTo('home');
+        document.querySelector('.not_logged_in').style.display = 'block';
+        document.querySelector('.logged_in').style.display = 'none';
+
     }
   });
 

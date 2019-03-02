@@ -109,12 +109,21 @@
         Welcome to<br>
         <span class="purple-text text-lighten-1">Chattrr</span>
       </h1>
+      <div class="not_logged_in">
       <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('login')">
         Sign in
       </button>
       <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('register')">
         Register
       </button>
+      </div>
+
+      <div class="logged_in">
+        <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('chat')">
+          Chat
+        </button>
+      </div>
+
       <!--events-->
       <!-- <button class="purple lighten-1 waves-effect waves-light btn" onclick="Addevent()">
         AddEvent
