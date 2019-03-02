@@ -44,7 +44,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
   <script src="scripts/components/router.js"></script>
   <script src="scripts/components/user.js"></script>
-  <script src="scripts/components/chat.js"></script>
+  <script src="scripts/components/message.js"></script>
   <script src="scripts/components/conversation.js"></script>
   <script src="scripts/main.js"></script>
 
@@ -241,8 +241,8 @@
             </div>
             <div class="type_msg">
               <div class="input_msg_write">
-                <input type="text" class="write_msg" placeholder="Type a message" />
-                <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o"
+                <input type="text" class="write_msg" placeholder="Type a message" id="msg_text" />
+                <button class="msg_send_btn" type="button" onclick="sendMessage()"><i class="fa fa-paper-plane-o"
                     aria-hidden="true"></i></button>
               </div>
             </div>

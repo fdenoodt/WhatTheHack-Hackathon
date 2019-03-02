@@ -17,7 +17,7 @@ const init = () => {
     document.querySelector('.' + page).style.display = 'none'
   }
 
-  router = new Router(pages)
+  router = new Router(pages);
 
   firebase.auth().onAuthStateChanged(function (u) {
     if (u) {
@@ -57,12 +57,12 @@ const getMessages = () => {
   })
 };
 
-function sendMessage(sendUser, receiveUser, chat, message) {
-  firebase.database().ref('messages/' + chat).set({
-    usersend: sendUser,
-    userreceive: receiveUser,
-    Message: message
-  })
+function sendMessage() {
+    let text = document.getElementById('msg_text').value;
+    let sendby = firebase.auth().currentUser.uid;
+    let time = new Date().getTime();
+    let message = new Message(sendby,text,time);
+    firebase.database().ref('conversations/abcd/messages').push(message);
 }
 
 function findUser() {

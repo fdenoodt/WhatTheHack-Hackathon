@@ -4,6 +4,5 @@ class User {
     this.lName=lName;
     this.age=age;
     this.interests=interests;
-    this.chat = new Chat();
   }
 }
