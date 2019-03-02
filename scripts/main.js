@@ -13,7 +13,7 @@ let ConvoId;
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile', 'chat']
+  const pages = ['home', 'login', 'register', 'profile', 'chat', 'make_profile']
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
   }
@@ -26,7 +26,7 @@ const init = () => {
       document.getElementById("eventinformation").innerHTML += '<p> ' + key.Description + '</p>';
 
     });
-    
+
   });
 
   router = new Router(pages);
@@ -37,17 +37,17 @@ const init = () => {
       const id = u.uid;
       refUsers.child('/' + id).once('value').then(function (snapshot) {
         const data = snapshot.val();
-        user = new User(data.fName,data.lName,data.age,data.interests);
+        user = new User(data.fname, data.lname, data.age, data.interests);
       });
 
-      router.goTo('chat');
+      //router.goTo('chat');
     } else {
       // User is signed out.
-      router.goTo('home');
+      //router.goTo('home');
     }
   });
 
-  
+
 
 };
 firebase.initializeApp(config);
@@ -70,11 +70,11 @@ const getMessages = () => {
 };
 
 function sendMessage() {
-    let text = document.getElementById('msg_text').value;
-    let sender = firebase.auth().currentUser.uid;
-    let time = new Date().getTime();
-    let message = new Message(text,time, sender);
-    firebase.database().ref('conversations/'+ ConvoId +'/messages').push(message);
+  let text = document.getElementById('msg_text').value;
+  let sender = firebase.auth().currentUser.uid;
+  let time = new Date().getTime();
+  let message = new Message(text, time, sender);
+  firebase.database().ref('conversations/' + ConvoId + '/messages').push(message);
 }
 
 function findUser() {
@@ -145,77 +145,87 @@ const login = () => {
 
 };
 
-var Eventinfo = {};
-Eventinfo.name = "Workshop";
-let datetime = new Date();
-Eventinfo.date = datetime.getDate();
-Eventinfo.starttime = 13;
-Eventinfo.duration = 2
-Eventinfo.Description = "Extra info hier"
+/* let datetime = new Date();
+var Eventinfo = {
+  name: "Workshop",
+  date: datetime.getDate(),
+  starttime: 13,
+  duration: 2,
+  description: "Extra info Here"
+}; */
 
-const Addevent =() => {
+/* const Addevent =() => {
   firebase.database().ref('Events/').push(Eventinfo);
-}
+} */
 
 const GoogleAuth = () => {
   firebase.auth().signInWithPopup(provider).then(function (result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    var token = result.credential.accessToken;
 
     var userObj = result.user;
     warn("logged in with google");
     const id = firebase.auth().currentUser.uid;
 
-      let user = {
-          fname: userObj.displayName,
-          lname: 'temL',
-          age: 21,
-          interests: ['sport', 'school', 'lol']
-      };
-      refUsers.child(id).set(user);
+    //refUsers.child(id).set(user);
+    if (result.additionalUserInfo.isNewUser) {
+      router.goTo('make_profile')
+    }
+    else {
+      router.goTo('chat')
+    }
+
   }).catch(function (error) {
-    // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
     warn("error logging in with google" + errorCode + " " + errorMessage)
   });
 
   firebase.auth().signOut().then(function () {
     warn("user logged out")
   })
-//}
+  //}
 
+}
+
+
+const saveProfile = () => {
+  var userObj = firebase.auth().currentUser;
+  const id = firebase.auth().currentUser.uid;
+  let user = {
+    fname: userObj.displayName,
+    lname: document.getElementById("register_inp_lastname").value,
+    age: document.getElementById("register_inp_age").value,
+    interests: [document.getElementById("register_inp_interest1").value, document.getElementById("register_inp_interest2").value, document.getElementById("register_inp_interest3").value],
+    bio: document.getElementById("register_inp_bio").value,
+    pfp: userObj.photoURL
+  };
+  refUsers.child(id).set(user);
 }
 
 const warn = (message) => {
   console.log(message)
 };
 
-const getPeopleWhoWantToChat = () =>{
-    refQueue.limitToFirst(1).once('value').then(function (snapshot) {
-        let user2 = snapshot.val()[Object.keys(snapshot.val())];
-        if(snapshot.val() === null){
-            addToQueue();
-        }
-        else{
-            let conversation = new Conversation(firebase.auth().currentUser.uid,user2,null);
-            ConvoId = refConversation.push().key;
-            refConversation.child(ConvoId).set(conversation);
-            refQueue.child(user2).Remove();
-        }
-    });
+const getPeopleWhoWantToChat = () => {
+  refQueue.limitToFirst(1).once('value').then(function (snapshot) {
+    let user2 = snapshot.val()[Object.keys(snapshot.val())];
+    if (snapshot.val() === null) {
+      addToQueue();
+    }
+    else {
+      let conversation = new Conversation(firebase.auth().currentUser.uid, user2, null);
+      ConvoId = refConversation.push().key;
+      refConversation.child(ConvoId).set(conversation);
+      refQueue.child(user2).Remove();
+    }
+  });
 };
 
 const addToQueue = () => {
-    refQueue.push(firebase.auth().currentUser.uid);
+  refQueue.push(firebase.auth().currentUser.uid);
 };
 
 
 
-const makeConversation = () =>{
-    getPeopleWhoWantToChat();
+const makeConversation = () => {
+  getPeopleWhoWantToChat();
 };
