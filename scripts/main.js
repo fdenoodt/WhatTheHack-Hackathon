@@ -78,7 +78,7 @@ function sendMessage() {
   let time = new Date().getTime();
   let message = new Message(text, time, sender);
   console.log(ConvoId);
-    refConversations.child(ConvoId).child('messqges').push(message)
+    refConversations.child(ConvoId).child('messages').push(message)
     addFriend();
   //7firebase.database().ref('conversations/' + ConvoId + '/messages');
 }
@@ -257,15 +257,18 @@ const addToQueue = () => {
 const addFriend = () => {
     let user1UID;
     let user2UID;
-    firebase.database().ref('conversations/'+ ConvoId +'/u1').once('value').then(function (snapshot) {
+    refConversations.once('value').then(function (test) {
+        console.log(test);
+    })/*
+    firebase.database().ref('conversations/'+ ConvoId ).once('value').then(function (snapshot) {
        if(snapshot.val())
        { user1UID = snapshot.val()}
     });
-    firebase.database().ref('conversations/'+ ConvoId +'/u2').once('value').then(function (snapshot) {
+    firebase.database().ref('conversations/'+ ConvoId ).once('value').then(function (snapshot) {
         if(snapshot.val()) {
             user2UID = snapshot.val();
         }
-    });
+    });*/
     let thisuserUID = firebase.auth().currentUser.uid;
     let friendUID;
     if(user1UID === thisuserUID){
