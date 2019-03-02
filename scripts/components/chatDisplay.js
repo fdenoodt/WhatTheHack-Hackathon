@@ -34,16 +34,16 @@ class ChatDisplay {
 
 
   showMessages(convId) {
-      var newArray = user.lsConversations.filter(function (el) {
+    var newArray = user.lsConversations.filter(function (el) {
       return el.id == convId;
     });
-
+    console.log(newArray)
 
     const conv = newArray[0]
 
     this.msgDispl.innerHTML = '';
     for (const msg of conv.lsMessages) {
-        let id = firebase.auth().currentUser.uid;
+      let id = firebase.auth().currentUser.uid;
 
       if (id == msg.from) {
         this.msgDispl.innerHTML += `
