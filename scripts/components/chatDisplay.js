@@ -28,7 +28,7 @@ class ChatDisplay {
           that.convsDispl.innerHTML += `
         <div class="chat_list" onclick=handleConfIniated('${convId}')>
           <div class="chat_people">
-            <div class="chat_img"> <img src="` +  + `" alt="sunil"> </div>
+          <div class="chat_img"> <img src="` + data.photoURL + `" alt="sunil"> </div>'
               <div class="chat_ib"> 
                 <h5>${name} <span onclick="goToProfile('${id}')" class="chat_date"> <i class="material-icons" style='vertical-align: middle'>assignment_ind</i> Profile</span></h5>
               </div>
