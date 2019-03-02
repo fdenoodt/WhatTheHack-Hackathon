@@ -2,6 +2,7 @@ class ChatDisplay {
   constructor() {
     this.convsDispl = document.querySelector('.inbox_chat');
     this.msgDispl = document.querySelector('.msg_history');
+    this.selectedConv = null;
   }
 
   update(lsConv) {
@@ -33,10 +34,15 @@ class ChatDisplay {
         })
       }
     }
+
+    if (this.selectedConv != null) {
+      this.showMessages(this.selectedConv)
+    }
   }
 
 
   showMessages(convId) {
+    this.selectedConv = convId;
     var newArray = user.lsConversations.filter(function (el) {
       return el.id == convId;
     });

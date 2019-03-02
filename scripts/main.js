@@ -77,8 +77,8 @@ function sendMessage() {
   let sender = firebase.auth().currentUser.uid;
   let time = new Date().getTime();
   let message = new Message(text, time, sender);
-    refConversations.child(ConvoId).child('messages').push(message)
-    addFriend();
+  refConversations.child(ConvoId).child('messages').push(message)
+  // addFriend();
   //7firebase.database().ref('conversations/' + ConvoId + '/messages');
 }
 
@@ -88,9 +88,9 @@ function findUser() {
 
 //function
 
-const handleConfIniated = (convId) =>{
-    chatDisplay.showMessages(convId);
-    ConvoId = convId;
+const handleConfIniated = (convId) => {
+  chatDisplay.showMessages(convId);
+  ConvoId = convId;
 };
 
 const register = () => {
@@ -219,34 +219,34 @@ const warn = (message) => {
   console.log(message)
 };
 
-const getPeopleWhoWantToChat = () =>{
-    refQueue.limitToFirst(1).once('value').then(function (snapshot) {
-        let user2 = snapshot.val();
-        if(snapshot.val() === null){
-            addToQueue();
-            refConversations.on('child_added', function (snapshot) {
-                for(let key in snapshot.val()){
-                    console.log(snapshot.val()[key]);
-                    if (snapshot.val()[key] === firebase.auth().currentUser.uid){
-                        ConvoId = snapshot.key;
-                        break;
-                    }
-                }
-            })
+const getPeopleWhoWantToChat = () => {
+  refQueue.limitToFirst(1).once('value').then(function (snapshot) {
+    let user2 = snapshot.val();
+    if (snapshot.val() === null) {
+      addToQueue();
+      refConversations.on('child_added', function (snapshot) {
+        for (let key in snapshot.val()) {
+          console.log(snapshot.val()[key]);
+          if (snapshot.val()[key] === firebase.auth().currentUser.uid) {
+            ConvoId = snapshot.key;
+            break;
+          }
         }
-        else {
-            let user2Value = user2[Object.keys(user2)];
-            if (firebase.auth().currentUser.uid !== user2Value) {
-                //console.log(user2Value);
-                ConvoId = refConversations.push().key;
-                let conversation = new Conversation(firebase.auth().currentUser.uid, user2Value, null,ConvoId);
-                refConversations.child(ConvoId).set(conversation);
-                refQueue.equalTo(user2Value).once('value').then(function (snapshot) {
-                    snapshot.ref.remove();
-                })
-            }
-        }
-    });
+      })
+    }
+    else {
+      let user2Value = user2[Object.keys(user2)];
+      if (firebase.auth().currentUser.uid !== user2Value) {
+        //console.log(user2Value);
+        ConvoId = refConversations.push().key;
+        let conversation = new Conversation(firebase.auth().currentUser.uid, user2Value, null, ConvoId);
+        refConversations.child(ConvoId).set(conversation);
+        refQueue.equalTo(user2Value).once('value').then(function (snapshot) {
+          snapshot.ref.remove();
+        })
+      }
+    }
+  });
 };
 
 const addToQueue = () => {
@@ -254,30 +254,29 @@ const addToQueue = () => {
 };
 
 const addFriend = () => {
-    let user1UID;
-    let user2UID;
+  let user1UID;
+  let user2UID;
 
-    firebase.database().ref('conversations/'+ ConvoId +'/u1').once('value').then(function (snapshot) {
-       if(snapshot.val())
-       { user1UID = snapshot.val()}
-    });
-    firebase.database().ref('conversations/'+ ConvoId +'/u2').once('value').then(function (snapshot) {
-        if(snapshot.val()) {
-            user2UID = snapshot.val();
-        }
-    });
-    let thisuserUID = firebase.auth().currentUser.uid;
-    let friendUID;
-    if(user1UID === thisuserUID){
-        friendUID = user2UID;
+  firebase.database().ref('conversations/' + ConvoId + '/u1').once('value').then(function (snapshot) {
+    if (snapshot.val()) { user1UID = snapshot.val() }
+  });
+  firebase.database().ref('conversations/' + ConvoId + '/u2').once('value').then(function (snapshot) {
+    if (snapshot.val()) {
+      user2UID = snapshot.val();
     }
-    else {
-        friendUID = user1UID;
-    }
-    refUsers.child(friendUID).child('requests').push(thisuserUID)
-    refUsers.child(thisuserUID).child('requests').on('child_added',function (snapshot) {
-        console.log(snapshot.val());
-    })
+  });
+  let thisuserUID = firebase.auth().currentUser.uid;
+  let friendUID;
+  if (user1UID === thisuserUID) {
+    friendUID = user2UID;
+  }
+  else {
+    friendUID = user1UID;
+  }
+  refUsers.child(friendUID).child('requests').push(thisuserUID)
+  refUsers.child(thisuserUID).child('requests').on('child_added', function (snapshot) {
+    console.log(snapshot.val());
+  })
 };
 
 const makeConversation = () => {
@@ -294,7 +293,7 @@ const onProfileLoaded = (userId) => {
   if (userId == null)
     goTo('home')
   else {
-      refUsers.child('/' + userId).once('value').then(function (snapshot) {
+    refUsers.child('/' + userId).once('value').then(function (snapshot) {
       const data = snapshot.val();
       document.querySelector('.profile_name').innerHTML = data.fname + ' ' + data.lname;
       document.querySelector('.profile_age').innerHTML = data.age;
