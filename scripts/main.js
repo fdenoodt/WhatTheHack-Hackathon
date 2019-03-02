@@ -13,10 +13,10 @@ let ConvoId;
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile', 'chat', 'QRcode', 'QRreader', 'make_profile', 'loadingScreen']
+  const pages = ['home', 'login', 'register', 'profile', 'chat', 'QRcode', 'QRreader', 'make_profile', 'loadingScreen','event']
   chatDisplay = new ChatDisplay()
   for (const page of pages) {
-    document.querySelector('.' + page).style.display = 'none'
+    document.querySelector('.' + page).style.display = 'none';
   }
 
   //eventen ophalen
