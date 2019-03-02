@@ -78,7 +78,8 @@ function sendMessage() {
   let time = new Date().getTime();
   let message = new Message(text, time, sender);
   console.log(ConvoId);
-    refConversations.child(ConvoId).child('messqges').push(message)
+  console.log('ConvoIdfff');
+    refConversations.child(ConvoId).child('messages').push(message)
   //firebase.database().ref('conversations/' + ConvoId + '/messages');
 }
 

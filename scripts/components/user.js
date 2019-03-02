@@ -11,10 +11,11 @@ class User {
             const messages = [];
             let data = snapshot.val()
             const nKeys = Object.keys(data)[0]
-
-
             data = data[nKeys]
-            const conversationId = snapshot.ref.key;
+            const conversationId = nKeys;
+            // const conversationId = snapshot.ref.key;
+            console.log(conversationId)
+            console.log('fds')
 
 
             let keys = [];
