@@ -40,7 +40,12 @@ const init = () => {
       const id = u.uid;
       refUsers.child('/' + id).once('value').then(function (snapshot) {
         const data = snapshot.val();
-        user = new User(data.fname, data.lname, data.age, data.interests);
+        user = new User(data.fname, data.lname, data.age, data.interests,data.experience);
+        document.getElementById("profile_name").innerHTML = user.fName +' '+ user.lName ;
+        document.getElementById("profile_age").innerHTML = user.age;
+        document.getElementById("profile_experience").innerHTML = user.experience;
+        document.getElementById("profile_interests").innerHTML = user.interests;
+  
       });
 
       router.goTo('chat');
@@ -202,7 +207,8 @@ const saveProfile = () => {
     age: document.getElementById("register_inp_age").value,
     interests: [document.getElementById("register_inp_interest1").value, document.getElementById("register_inp_interest2").value, document.getElementById("register_inp_interest3").value],
     bio: document.getElementById("register_inp_bio").value,
-    pfp: userObj.photoURL
+    pfp: userObj.photoURL,
+    experience: 0
   };
   refUsers.child(id).set(user);
   console.log("profile saved")

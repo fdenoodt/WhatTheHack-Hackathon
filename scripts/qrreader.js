@@ -36,6 +36,17 @@ let opts = {
     scanner.addListener('scan', function (content) {
       console.log(content);
       //TODO check geolocation
+      const id = firebase.auth().currentUser.uid;
+      if(content != id){
+      refUsers.child(id+"/experience").once('value').then(function (snapshot) {
+        const data = snapshot.val();
+        console.log(data);
+        refUsers.child(id+"/experience").set(data+10);
+        })
+      }
+      else{
+        console.log("eigen qr code");
+      }
     });
     Instascan.Camera.getCameras().then(function (cameras) {
       if (cameras.length > 0) {
