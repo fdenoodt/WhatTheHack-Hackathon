@@ -13,7 +13,7 @@ let ConvoId;
 
 
 const init = () => {
-  const pages = ['home', 'login', 'register', 'profile', 'chat']
+  const pages = ['home', 'login', 'register', 'profile', 'chat','QRcode','QRreader']
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
   }

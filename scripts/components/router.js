@@ -10,6 +10,8 @@ class Router {
     location.href = '#page=' + page
     this.updatePage();
     $('.sidenav').sidenav();
+    if(page=='QRcode')
+    makeCode();
   }
 
   //Method copied from online and changed "? into #"

@@ -7,24 +7,27 @@
     colorDark : "#000000",
     colorLight : "#ffffff",
     correctLevel : QRCode.CorrectLevel.H
-});*/
-var qrcode = new QRCode("qrcode");
+});
+var qrcode = new QRCode("QRcode");
 
-function makeCode () {      
-    var elText = document.getElementById("text");
+function makeCode () { 
+    if(firebase.auth().currentUser.uid != null)     
+    var value = firebase.auth().currentUser.uid;
+
+    var elcode = document.getElementById("qrcode");
     
-    if (!elText.value) {
+    if (!value) {
         alert("Input a text");
-        elText.focus();
+        //elText.focus();
         return;
     }
     
-    qrcode.makeCode(elText.value);
+    qrcode.makeCode(value);
 }
 
-makeCode();
 
-$("#text").
+/*
+$("#qrcode").
     on("blur", function () {
         makeCode();
     }).
@@ -33,3 +36,30 @@ $("#text").
             makeCode();
         }
     });
+    */
+
+   var qrcode = new QRCode("qrcode");
+
+   function makeCode () {      
+       var value = firebase.auth().currentUser.uid;
+       
+       if (value == null) {
+           alert("Input a text");
+           //elText.focus();
+           return;
+       }
+       
+       qrcode.makeCode(value);
+   }
+   
+   makeCode();
+   
+   /*$("#text").
+       on("blur", function () {
+           makeCode();
+       }).
+       on("keydown", function (e) {
+           if (e.keyCode == 13) {
+               makeCode();
+           }
+       });*/
