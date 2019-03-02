@@ -9,6 +9,7 @@ var config = {
 
 var provider = new firebase.auth.GoogleAuthProvider();
 
+let ConvoId;
 
 
 const init = () => {
@@ -45,6 +46,7 @@ const database = firebase.database();
 const refMessage = firebase.database().ref('messages/');
 const refUsers = firebase.database().ref('users/');
 const refQueue = firebase.database().ref('queue/');
+const refConversation = firebase.database().ref('conversations/');
 let user;
 
 const Messages = [];
@@ -62,7 +64,7 @@ function sendMessage() {
     let sendby = firebase.auth().currentUser.uid;
     let time = new Date().getTime();
     let message = new Message(sendby,text,time);
-    firebase.database().ref('conversations/abcd/messages').push(message);
+    firebase.database().ref('conversations/'+ ConvoId +'/messages').push(message);
 }
 
 function findUser() {
@@ -96,7 +98,7 @@ const register = () => {
           warn("Error happened while signing up: " + errorCode + " " + errorMessage + " ")
         });
     });
-}
+};
 
 const login = () => {
   let email = document.getElementById("login_inp_username").value
@@ -131,15 +133,24 @@ const login = () => {
 
 
 
-}
+};
 
 const GoogleAuth = () => {
   firebase.auth().signInWithPopup(provider).then(function (result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
     var token = result.credential.accessToken;
 
-    var user = result.user;
-    warn("logged in with google")
+    var userObj = result.user;
+    warn("logged in with google");
+    const id = firebase.auth().currentUser.uid;
+
+      let user = {
+          fname: userObj.displayName,
+          lname: 'temL',
+          age: 21,
+          interests: ['sport', 'school', 'lol']
+      };
+      refUsers.child(id).set(user);
   }).catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
@@ -154,8 +165,33 @@ const GoogleAuth = () => {
   firebase.auth().signOut().then(function () {
     warn("user logged out")
   })
-}
+};
 
 const warn = (message) => {
   console.log(message)
-}
+};
+
+const getPeopleWhoWantToChat = () =>{
+    refQueue.limitToFirst(1).once('value').then(function (snapshot) {
+        let user2 = snapshot.val()[Object.keys(snapshot.val())];
+        if(snapshot.val() === null){
+            addToQueue();
+        }
+        else{
+            let conversation = new Conversation(firebase.auth().currentUser.uid,user2,null);
+            ConvoId = refConversation.push().key;
+            refConversation.child(ConvoId).set(conversation);
+            refQueue.child(user2).Remove();
+        }
+    });
+};
+
+const addToQueue = () => {
+    refQueue.push(firebase.auth().currentUser.uid);
+};
+
+
+
+const makeConversation = () =>{
+    getPeopleWhoWantToChat();
+};

@@ -1,8 +1,9 @@
 class User {
-  constructor(fName,lName,age,interests,) {
+  constructor(fName,lName,age,interests,friends) {
     this.fName = fName;
     this.lName=lName;
     this.age=age;
     this.interests=interests;
+    this.friends=friends;
   }
 }
