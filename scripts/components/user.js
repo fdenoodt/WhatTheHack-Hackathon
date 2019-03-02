@@ -5,11 +5,13 @@ class User {
     this.age = age;
     this.interests = interests;
     this.lsConversations = [];
-    this.chatDisplay = new ChatDisplay();
     const that = this;
+
     refConversations.on('child_added', function (snapshot) {
       const messages = [];
       const data = snapshot.val();
+      const conversationId = snapshot.ref.key;
+
 
       let keys = [];
       if (data.messages != undefined)
@@ -19,10 +21,9 @@ class User {
         const dataText = data.messages[key];
         messages.push(new Message(dataText.text, dataText.time, dataText.ufrom));
       }
-
-      const conversation = new Conversation(data.u1, data.u2, messages);
+      const conversation = new Conversation(data.u1, data.u2, messages, conversationId);
       that.lsConversations.push(conversation);
-      that.chatDisplay.update(that.lsConversations);
+      chatDisplay.update(that.lsConversations);
     });
   }
 }

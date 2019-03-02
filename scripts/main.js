@@ -13,6 +13,8 @@ let ConvoId;
 
 
 const init = () => {
+  chatDisplay = new ChatDisplay()
+
   const pages = ['home', 'login', 'register', 'profile', 'chat']
   for (const page of pages) {
     document.querySelector('.' + page).style.display = 'none'
@@ -26,7 +28,7 @@ const init = () => {
       const id = u.uid;
       refUsers.child('/' + id).once('value').then(function (snapshot) {
         const data = snapshot.val();
-        user = new User(data.fName,data.lName,data.age,data.interests);
+        user = new User(data.fName, data.lName, data.age, data.interests);
       });
 
       router.goTo('chat');
@@ -35,6 +37,7 @@ const init = () => {
       router.goTo('home');
     }
   });
+
 
 };
 firebase.initializeApp(config);
@@ -45,6 +48,8 @@ const refUsers = firebase.database().ref('users/');
 const refQueue = firebase.database().ref('queue/');
 const refConversation = firebase.database().ref('conversations/');
 let user;
+let chatDisplay;
+
 
 const Messages = [];
 // Luister naar nieuwe berichten voeg toe aan berichten indien er nieuwe zijn
@@ -57,11 +62,11 @@ const getMessages = () => {
 };
 
 function sendMessage() {
-    let text = document.getElementById('msg_text').value;
-    let sender = firebase.auth().currentUser.uid;
-    let time = new Date().getTime();
-    let message = new Message(text,time, sender);
-    firebase.database().ref('conversations/'+ ConvoId +'/messages').push(message);
+  let text = document.getElementById('msg_text').value;
+  let sender = firebase.auth().currentUser.uid;
+  let time = new Date().getTime();
+  let message = new Message(text, time, sender);
+  firebase.database().ref('conversations/' + ConvoId + '/messages').push(message);
 }
 
 function findUser() {
@@ -141,13 +146,13 @@ const GoogleAuth = () => {
     warn("logged in with google");
     const id = firebase.auth().currentUser.uid;
 
-      let user = {
-          fname: userObj.displayName,
-          lname: 'temL',
-          age: 21,
-          interests: ['sport', 'school', 'lol']
-      };
-      refUsers.child(id).set(user);
+    let user = {
+      fname: userObj.displayName,
+      lname: 'temL',
+      age: 21,
+      interests: ['sport', 'school', 'lol']
+    };
+    refUsers.child(id).set(user);
   }).catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
@@ -170,27 +175,27 @@ const warn = (message) => {
   console.log(message)
 };
 
-const getPeopleWhoWantToChat = () =>{
-    refQueue.limitToFirst(1).once('value').then(function (snapshot) {
-        let user2 = snapshot.val()[Object.keys(snapshot.val())];
-        if(snapshot.val() === null){
-            addToQueue();
-        }
-        else{
-            let conversation = new Conversation(firebase.auth().currentUser.uid,user2,null);
-            ConvoId = refConversation.push().key;
-            refConversation.child(ConvoId).set(conversation);
-            refQueue.child(user2).Remove();
-        }
-    });
+const getPeopleWhoWantToChat = () => {
+  refQueue.limitToFirst(1).once('value').then(function (snapshot) {
+    let user2 = snapshot.val()[Object.keys(snapshot.val())];
+    if (snapshot.val() === null) {
+      addToQueue();
+    }
+    else {
+      let conversation = new Conversation(firebase.auth().currentUser.uid, user2, null);
+      ConvoId = refConversation.push().key;
+      refConversation.child(ConvoId).set(conversation);
+      refQueue.child(user2).Remove();
+    }
+  });
 };
 
 const addToQueue = () => {
-    refQueue.push(firebase.auth().currentUser.uid);
+  refQueue.push(firebase.auth().currentUser.uid);
 };
 
 
 
-const makeConversation = () =>{
-    getPeopleWhoWantToChat();
+const makeConversation = () => {
+  getPeopleWhoWantToChat();
 };
