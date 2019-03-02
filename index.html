@@ -8,7 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- bootstrap chat ui -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+    rel="stylesheet">
 
   <!-- Materializecss -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -57,7 +58,7 @@
 <body onload="init()">
   <nav class="purple lighten-1">
     <div class="nav-wrapper">
-      <a onclick="router.goTo('home')" class="brand-logo logo">InsertName</a>
+      <a onclick="router.goTo('home')" class="brand-logo logo" style="padding-left: 2em">InsertName</a>
       <a data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li><a onclick="router.goTo('home')">Home</a></li>
@@ -83,6 +84,11 @@
       <button class="purple lighten-1 waves-effect waves-light btn" onclick="router.goTo('register')">
         Register
       </button>
+      <!--events-->
+      <!-- <button class="purple lighten-1 waves-effect waves-light btn" onclick="Addevent()">
+        AddEvent
+      </button> -->
+      <div id="eventinformation"></div>
     </div>
 
     <div class="login">
@@ -132,15 +138,13 @@
           </div>
         </div>
       </div>
-
-
     </div>
 
     <div class="profile">
       <div class="row">
         <div class="col s12 center-align">
           <div class="section">
-            <h5><span class="logo">Hello</span> <span class="username">Loading</span></h5>
+            <h5><span class="logo">Profile</span> <span class="username">Page</span></h5>
           </div>
         </div>
         <div class="section">
@@ -151,16 +155,13 @@
 
             <div class="col s6 left-align">
               <p>
-                Name: <span class="name">Fabian Denoodt</span><br>
+                Name: <span class="profile_name">Fabian Denoodt</span><br>
               </p>
               <p>
-                Age: <span class="name">21</span><br>
+                Age: <span class="profile_age">21</span><br>
               </p>
               <p>
-                Gender: <span class="name">21</span><br>
-              </p>
-              <p>
-                Interests: <span class="name">21</span><br>
+                Interests: <span class="profile_interests">xxx</span><br>
               </p>
 
               <div class="row left-align">
@@ -227,7 +228,7 @@
           </div>
           <div class="mesgs">
             <div class="msg_history">
-              <div class="incoming_msg">
+              <!-- <div class="incoming_msg">
                 <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
                 </div>
                 <div class="received_msg">
@@ -237,16 +238,17 @@
                     <span class="time_date"> 11:01 AM | June 9</span>
                   </div>
                 </div>
-              </div>
-              <div class="outgoing_msg">
+              </div> -->
+              <!-- <div class="outgoing_msg">
                 <div class="sent_msg">
                   <p>Test which is a new approach to have all
                     solutions</p>
                   <span class="time_date"> 11:01 AM | June 9</span>
                 </div>
-              </div>
+              </div> -->
             </div>
-            <button class="msg_send_btn" type="button" onclick="makeConversation()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+            <button class="msg_send_btn" type="button" onclick="makeConversation()"><i class="fa fa-paper-plane-o"
+                aria-hidden="true"></i></button>
             <div class="type_msg">
               <div class="input_msg_write">
                 <input type="text" class="write_msg" placeholder="Type a message" id="msg_text" />
@@ -258,9 +260,46 @@
         </div>
 
 
+      </div>
+    </div>
+  </div>
+
+  <div class="make_profile">
+    <div class="row">
+      <div class="col s12 center-align">
+        <div class="section">
+          <h5><span class="logo">Make</span>Profile</h5>
         </div>
       </div>
+      <div class="row">
+        <label class="active" for="register_inp_lastname">Last Name</label>
+        <input id="register_inp_lastname" type="text">
+      </div>
+      <div class="row">
+        <div class="row">
+          <label class="active" for="register_inp_age">Age</label>
+          <input id="register_inp_age" type="text">
+        </div>
+        <div class="row">
+          <label class="active" for="register_inp_interests">Interests</label>
+          <label class="active" for="register_inp_interest1">Interest 1</label>
+          <input id="register_inp_interest1" type="text">
+          <label class="active" for="register_inp_interest2">Interest 2</label>
+          <input id="register_inp_interest2" type="text">
+          <label class="active" for="register_inp_interest3">Interest 3</label>
+          <input id="register_inp_interest3" type="text">
+        </div>
+        <div class="row">
+          <label class="active" for="register_inp_bio">Bio</label>
+          <input id="register_inp_bio" type="text">
+        </div>
+        <div class="row center-align">
+          <button class="purple lighten-1 waves-effect waves-light btn" onclick="saveProfile()">Save Profile</button>
+        </div>
+      </div>
+    </div>
   </div>
+
 
   </div>
   <div class="QRcode">
