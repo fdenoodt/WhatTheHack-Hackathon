@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSSample</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+    $(function() {
+        var params = {
+                "documents": [
+                    {
+                        "language": "en",
+                        "id": "1",
+                        "text": "This is my first test. All is good"
+                    },
+                    {
+                        "language": "en",
+                        "id": "2",
+                        "text": "This is my first test. All is not good"
+                    },
+                    {
+                        "language": "en",
+                        "id": "3",
+                        "text": "Why is this not working as expected?"
+                    },
+                    {
+                        "language": "en",
+                        "id": "4",
+                        "text": "You got to be kidding me like this"
+                    },
+                    {
+                        "language": "en",
+                        "id": "5",
+                        "text": "I hope this will finally work. I hope it will"
+                    }
+                ]
+            };
+
+            $.ajax({
+                 method: 'POST',
+                url: "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment",
+                headers:{
+                    "Content-Type":"application/json",
+                  "Ocp-Apim-Subscription-Key":"0af56b8a56b34cdb97885c8fa3716909",
+                  "Accept":"application/json"
+                },
+                data: JSON.stringify(params),
+                dataType: 'text',
+            })
+            .done(function(data) {
+                console.log('Here: ' + data);
+                $('#responseData').html(data);
+            })
+            .fail(function(data) {
+                alert("error" + JSON.stringify(data));
+            });
+        });
+</script>
+</body>
+</html>
