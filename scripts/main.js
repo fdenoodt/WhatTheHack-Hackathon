@@ -26,9 +26,6 @@ const init = () => {
       refUsers.child('/' + id).once('value').then(function (snapshot) {
         const data = snapshot.val();
         user = new User(data.fName,data.lName,data.age,data.interests);
-        console.log(data);
-        console.log(user);
-        console.log(id);
       });
 
       router.goTo('chat');
@@ -42,7 +39,7 @@ const init = () => {
 firebase.initializeApp(config);
 
 const database = firebase.database();
-const refMessage = firebase.database().ref('messages/');
+const refConversations = firebase.database().ref('conversations/');
 const refUsers = firebase.database().ref('users/');
 const refQueue = firebase.database().ref('queue/');
 let user;
@@ -50,7 +47,7 @@ let user;
 const Messages = [];
 // Luister naar nieuwe berichten voeg toe aan berichten indien er nieuwe zijn
 const getMessages = () => {
-  refMessage.once('value').then(function (snapshot) {
+  refConversations.once('value').then(function (snapshot) {
     for (const key in snapshot.val()) {
       Messages.push(key);
     }
