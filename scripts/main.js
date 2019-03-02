@@ -78,9 +78,9 @@ function sendMessage() {
   let time = new Date().getTime();
   let message = new Message(text, time, sender);
   console.log(ConvoId);
-  console.log('ConvoIdfff');
-    refConversations.child(ConvoId).child('messages').push(message)
-  //firebase.database().ref('conversations/' + ConvoId + '/messages');
+    refConversations.child(ConvoId).child('messqges').push(message)
+    addFriend();
+  //7firebase.database().ref('conversations/' + ConvoId + '/messages');
 }
 
 function findUser() {
@@ -269,11 +269,15 @@ const addFriend = () => {
     let thisuserUID = firebase.auth().currentUser.uid;
     let friendUID;
     if(user1UID === thisuserUID){
-        friendUID = user1UID;
-    }
-    else {
         friendUID = user2UID;
     }
+    else {
+        friendUID = user1UID;
+    }
+    refUsers.child(friendUID).child('requests').push(thisuserUID)
+    refUsers.child(thisuserUID).child('requests').on('child_added',function (snapshot) {
+        console.log(snapshot.val());
+    })
 };
 
 const makeConversation = () => {
@@ -290,11 +294,11 @@ const onProfileLoaded = (userId) => {
   if (userId == null)
     goTo('home')
   else {
-    refUsers.child('/' + userId).once('value').then(function (snapshot) {
+      refUsers.child('/' + userId).once('value').then(function (snapshot) {
       const data = snapshot.val();
-      document.querySelector('.profile_name').innerHTML = data.fname + ' ' + data.lname
-      document.querySelector('.profile_age').innerHTML = data.age
-      document.querySelector('.profile_interests').innerHTML = ''
+      document.querySelector('.profile_name').innerHTML = data.fname + ' ' + data.lname;
+      document.querySelector('.profile_age').innerHTML = data.age;
+      document.querySelector('.profile_interests').innerHTML = '';
 
       data.interests.forEach(inter => {
         document.querySelector('.profile_interests').innerHTML += inter + '<br>'
