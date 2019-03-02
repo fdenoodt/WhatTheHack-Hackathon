@@ -43,10 +43,10 @@ const init = () => {
         user = new User(data.fname, data.lname, data.age, data.interests);
       });
 
-      //router.goTo('chat');
+      router.goTo('chat');
     } else {
       // User is signed out.
-      //router.goTo('home');
+      router.goTo('home');
     }
   });
 
