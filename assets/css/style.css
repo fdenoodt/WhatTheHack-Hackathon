@@ -21,6 +21,7 @@ img {
 }
 
 .recent_heading {
+  position: relative;
   float: left;
   width: 40%;
 }

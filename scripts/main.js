@@ -19,6 +19,9 @@ const init = () => {
     document.querySelector('.' + page).style.display = 'none'
   }
 
+  document.getElementById("buttonjoinchat").style.display = "block"
+    document.getElementById("buttonsendmessage").style.display = "none"
+
   //eventen ophalen
   firebase.database().ref('Events/').on('value', data => {
     data.forEach(element => {
