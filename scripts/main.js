@@ -58,7 +58,6 @@ const database = firebase.database();
 const refConversations = firebase.database().ref('conversations/');
 const refUsers = firebase.database().ref('users/');
 const refQueue = firebase.database().ref('queue/');
-const refConversation = firebase.database().ref('conversations/');
 let user;
 let chatDisplay;
 
@@ -218,7 +217,7 @@ const getPeopleWhoWantToChat = () =>{
         let user2 = snapshot.val();
         if(snapshot.val() === null){
             addToQueue();
-            refConversation.on('child_added', function (snapshot) {
+            refConversations.on('child_added', function (snapshot) {
                 for(let key in snapshot.val()){
                     console.log(snapshot.val()[key]);
                     if (snapshot.val()[key] === firebase.auth().currentUser.uid){
@@ -232,8 +231,8 @@ const getPeopleWhoWantToChat = () =>{
             let user2Value = user2[Object.keys(user2)];
             //console.log(user2Value);
             let conversation = new Conversation(firebase.auth().currentUser.uid,user2Value,null);
-            ConvoId = refConversation.push().key;
-            refConversation.child(ConvoId).set(conversation);
+            ConvoId = refConversations.push().key;
+            refConversations.child(ConvoId).set(conversation);
             refQueue.equalTo(user2Value).once('value').then(function (snapshot) {
                 snapshot.ref.remove();
             })
